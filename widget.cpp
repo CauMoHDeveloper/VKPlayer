@@ -154,7 +154,7 @@ Widget::Widget(WidgetParent *parent) :
     ui->Lyrics_BTN->hide();
     //Инициализировать трей
     this->initialization_Tray();
-       //
+
     //Загрузить дизайн интерфейса
     try{
     this->DrawGUI();
