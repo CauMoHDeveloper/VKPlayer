@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AudioEdit</class>
+ <widget class="QWidget" name="AudioEdit">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>317</width>
+    <height>227</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="CloseApp">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>6</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="GenreEdit">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>140</y>
+     <width>191</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <property name="maxVisibleItems">
+    <number>10</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>Rock</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Pop</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Rap &amp; Hip-Hop</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Easy Listening</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Dance &amp; House</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Instrumental</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Metal</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Alternative</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Dubstep</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Jazz &amp; Blues</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Drum &amp; Bass</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Trance</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Chanson</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Ethnic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Acoustic &amp; Vocal</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Reggae</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Classical</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Indie Pop</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Speech</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Electropop &amp; Disco</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Other</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="GenreLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Жанр</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SaveEdit">
+   <property name="geometry">
+    <rect>
+     <x>191</x>
+     <y>190</y>
+     <width>110</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ArtistLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>82</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Исполнитель</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="ArtistEdit">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>40</y>
+     <width>191</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="TitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>79</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Название</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="TitleEdit">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>90</y>
+     <width>191</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Title">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>1</y>
+     <width>231</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Редактирование</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Icon">
+   <property name="geometry">
+    <rect>
+     <x>3</x>
+     <y>4</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

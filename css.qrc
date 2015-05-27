@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>CSS/Label.txt</file>
+        <file>CSS/TableWidget.txt</file>
+        <file>CSS/TabWidget.txt</file>
+        <file>CSS/Button.txt</file>
+        <file>CSS/TextEdit.txt</file>
+        <file>CSS/ComboBox.txt</file>
+        <file>CSS/LineEdit.txt</file>
+        <file>CSS/HorizontalSlider.txt</file>
+        <file>CSS/Dial.txt</file>
+        <file>CSS/Playlist.txt</file>
+        <file>CSS/MessageText.txt</file>
+        <file>CSS/SpinBox.txt</file>
+        <file>CSS/ProgressBar.txt</file>
+    </qresource>
+</RCC>

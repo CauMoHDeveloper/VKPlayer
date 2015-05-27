@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>background/osd_background.png</file>
+        <file>background/osd_shadow_corner.png</file>
+        <file>background/osd_shadow_edge.png</file>
+    </qresource>
+</RCC>

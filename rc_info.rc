@@ -1,0 +1,47 @@
+#include <winuser.h>
+#include <winnt.h>
+
+#define stringify(v1) #v1
+#define quote(v1)  stringify(v1)
+
+#define NVER  NVER1.NVER2.NVER3.NVER4
+
+LANGUAGE 25,1
+
+STRINGTABLE LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+BEGIN
+        1 "Программный комплекс РТК-07 ""ТАЙФУН""\0"
+END
+IDI_ICON1       ICON    DISCARDABLE     "img/srv_ico.ico"
+IDR_APP_ICON    ICON                    "img/srv_ico.ico"
+
+1 VERSIONINFO
+        FILEVERSION    NVER1,NVER2,NVER3,NVER4
+        PRODUCTVERSION NVER1,NVER2,NVER3,NVER4
+        FILEOS         0x00000000
+        FILETYPE       0x00000001
+BEGIN
+        BLOCK "StringFileInfo"
+        BEGIN
+          BLOCK "040904e4"
+          BEGIN
+          VALUE "Comments",           "Супер программа для ..."
+          VALUE "CompanyName",        "ОАО ""ПУПКИН"""
+          VALUE "FileDescription",    "Установка контроля и т.д"
+          VALUE "FileVersion",        quote(NVER)
+          VALUE "InternalName",       "РТК-07 ПРО"
+          VALUE "LegalCopyright",     "ОАО ""ПУПКИН"""
+          VALUE "LegalTrademarks",    "РТК-07 ПРО ""ТАЙФУН"""
+          VALUE "OriginalFilename",   quote(TARGET) ".exe"
+          VALUE "ProductName",        "Установка контроля и т.д"
+          VALUE "ProductVersion",     quote(NVER)
+          VALUE "PrivateBuild",       "Ревизия SVN " quote(SVN_REV)
+          VALUE "SpecialBuild",       "Программный комплекс РТК-07 ПРО ""ТАЙФУН"" Программа опроса АЦП и датчиков пристутствия"
+          VALUE "Builder",            "Lesav"
+          END
+        END
+        BLOCK "VarFileInfo"
+        BEGIN
+            VALUE "Translation",        0x0419, 0x04E3
+        END
+END

@@ -1,0 +1,48 @@
+QTextEdit {
+                background-color:rgb(25, 25, 25);
+                border: 1px solid rgb(47, 126, 165);
+                border-radius: 5px;
+                padding: 1px;
+                selection-background-color: darkgray;
+                color:white;
+}
+
+                QScrollBar:vertical {
+                 width: 10px;
+                 border-radius: 5px;
+                 margin: 0px 0 0px 0;
+                 }
+                QScrollBar::handle:vertical {
+                background-image: url(:/new/prefix1/icons/scroll.png);
+                border-radius: 5px;
+                min-height: 7px;
+             }
+                QScrollBar::add-line:vertical {
+                border: 0px;
+                background-image: url();
+                height: 5px;
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+                }
+                QScrollBar::sub-line:vertical {
+                border: 0px;
+                background-image: url();
+                height: 5px;
+                subcontrol-position: top;
+                subcontrol-origin: margin;
+                }
+                QScrollBar::up-arrow:vertical {
+                background-image: url(:/Styles/styles/scrollbar_upArrow.png);
+                background-repeat: no repeat;
+                width: 15px;
+                height: 15px;
+                }
+                QScrollBar::down-arrow:vertical {
+                background-image: url();
+                background-repeat: no repeat;
+                width: 15px;
+                height: 7px;
+                }
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: none;
+                }

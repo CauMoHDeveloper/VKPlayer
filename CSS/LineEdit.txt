@@ -1,0 +1,5 @@
+border: 1px solid rgb(47, 126, 165);
+                border-radius: 2px;
+                background: rgb(37, 37, 37);
+                selection-background-color: darkgray;
+                color: white;

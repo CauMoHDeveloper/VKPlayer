@@ -1,0 +1,60 @@
+border: 1px solid rgb(47, 126, 165);
+                border-radius: 2px;
+                background: rgb(37, 37, 37);
+                color: white;
+                }
+                 QScrollBar:vertical {
+                 width: 10px;
+                 border-radius: 5px;
+                 margin: 0px 0 0px 0;
+                 }
+                QScrollBar::handle:vertical {
+                background-image: url(:/new/prefix1/icons/scroll.png);
+                min-height: 7px;
+            }
+                QScrollBar::add-line:vertical {
+                border: 0px;
+                background-image: url();
+                height: 5px;
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+                }
+                QScrollBar::sub-line:vertical {
+                border: 0px;
+                background-image: url();
+               height: 5px;
+                subcontrol-position: top;
+                subcontrol-origin: margin;
+                }
+                QScrollBar::up-arrow:vertical {
+                background-image: url(:/Styles/styles/scrollbar_upArrow.png);
+                background-repeat: no repeat;
+                width: 15px;
+               height: 15px;
+                }
+                QScrollBar::down-arrow:vertical {
+                background-image: url();
+                background-repeat: no repeat;
+                width: 15px;
+                height: 7px;
+                }
+                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: none;
+                }
+
+                QComboBox QAbstractItemView {
+                     border: 2px solid darkgray;
+                     selection-background-color: rgb(47, 126, 165);
+                 }
+
+                QComboBox::drop-down {
+                     subcontrol-origin: padding;
+                     subcontrol-position: top right;
+                     width: 0px;
+
+                     border-left-width: 0px;
+                     border-left-color: darkgray;
+                     border-left-style: solid;
+                     border-top-right-radius: 3px;
+                     border-bottom-right-radius: 3px;
+                 }
