@@ -156,7 +156,13 @@ Widget::Widget(WidgetParent *parent) :
     this->initialization_Tray();
 
     //Загрузить дизайн интерфейса
+    try{
     this->DrawGUI();
+    }
+    catch(QException)
+    {
+    }
+
     //Соединить Сигналы и слоты
     this->initialization_SignalSlot();
     //Сгенерировать ID проги
