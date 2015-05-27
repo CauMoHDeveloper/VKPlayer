@@ -7,7 +7,7 @@
 #include "messages.h"
 #include <QFont>
 #include <QRgb>
-//                                                     VKPLAYER 2.2.1                                   //
+//                                                     VKPLAYER 3.0 beta 1                                  //
 
 //    Разработчик :  НЕСТЕРОВ ВЯЧЕСЛАВ АНАТОЛЬЕВИЧ
 
