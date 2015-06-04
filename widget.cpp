@@ -437,7 +437,6 @@ void Widget::start_group_VK()
         if(!get->GET(current).contains("error"))
         {
             QByteArray tmp = get->GET(current);
-            qDebug()<<tmp;
             if(tmp.contains("0"))
             {
                 reqParams.clear();

@@ -225,7 +225,7 @@ void auther::DownloadSettings()                                        //Зар�
             if(settings->value("HotKey_VolumeDown/id_Two_Key").isNull())
                 settings->setValue("HotKey_VolumeDown/id_Two_Key", "73");
             if(settings->value("HotKey_VolumeDown/Key_Name").isNull())
-                settings->setValue("HotKey_VolumeDown/Key_Name", "Alt + P");
+                settings->setValue("HotKey_VolumeDown/Key_Name", "Alt + I");
 
 
             settings->sync();
