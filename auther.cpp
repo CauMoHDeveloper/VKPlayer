@@ -163,6 +163,12 @@ void auther::DownloadSettings()                                        //Зар�
                 settings->setValue("Hide_To_Tray/val", true);
             if(settings->value("Directory/string").isNull())
                 settings->setValue("Directory/string", " ");
+            if(settings->value("Search_lyrics_only/val").isNull())
+                settings->setValue("Search_lyrics_only/val", "false");
+            if(settings->value("Search_performer_only/val").isNull())
+                 settings->setValue("Search_performer_only/val", "false");
+            if(settings->value("Search_user_only/val").isNull())
+                settings->setValue("Search_user_only/val", "false");
 
             if(settings->value("HotKey_Play/id_HotKey").isNull())
                 settings->setValue("HotKey_Play/id_HotKey", "0");

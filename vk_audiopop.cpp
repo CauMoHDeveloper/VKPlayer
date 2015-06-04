@@ -57,6 +57,20 @@ void VkAudiopop::get_audioPOPULAR(QString UserId, QString token,QUrl current,QSt
         reqParams.addQueryItem("q", search);
         reqParams.addQueryItem("auto_complete", "1");
         reqParams.addQueryItem("sort", "2");
+
+        QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
+
+        bool Search_lyrics_only = false, Search_performer_only = false, Search_user_only = false;
+        Search_lyrics_only = settings->value("Search_lyrics_only/val").toBool();
+        Search_performer_only = settings->value("Search_performer_only/val").toBool();
+        Search_user_only = settings->value("Search_user_only/val").toBool();
+
+        reqParams.addQueryItem("lyrics", QString::number(Search_lyrics_only));
+        reqParams.addQueryItem("performer_only", QString::number(Search_performer_only));
+        reqParams.addQueryItem("search_own", QString::number(Search_user_only));
+
+        qDebug()<<reqParams.toString();
+
     }
     if(current==tmp3 && search!="empty"){
         reqParams.addQueryItem("genre_id", search);

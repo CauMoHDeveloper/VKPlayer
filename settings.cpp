@@ -44,6 +44,9 @@ Settings::Settings(WidgetParent *parent) :
     connect(ui->spinBox_Text_Song, SIGNAL(valueChanged(int)),this, SLOT(Save_SpeedSOngText(int)));
     connect(ui->checkBox_Notification, SIGNAL(toggled(bool)),this, SIGNAL(ChangeNotification(bool)));
     connect(ui->checkBox_Hide_Tray, SIGNAL(toggled(bool)), this, SIGNAL(ChangeHideToTray(bool)));
+    connect(ui->Search_lyrics_only, SIGNAL(toggled(bool)), this, SLOT(Save_Search_options()));
+    connect(ui->Search_performer_only, SIGNAL(toggled(bool)), this, SLOT(Save_Search_options()));
+    connect(ui->Search_user_only, SIGNAL(toggled(bool)), this, SLOT(Save_Search_options()));
     connect(ui->tableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), //Выбор сочетания клавиш
             this, SLOT(selectedItem(QTableWidgetItem*)));
     connect(ui->aboutQt, SIGNAL(clicked()), QApplication::instance(), SLOT(aboutQt()));
@@ -137,6 +140,9 @@ void Settings::DrawGUI()                                              //Рисо
     ui->label_6->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
     ui->label_7->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
     ui->label_8->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
+    ui->label_9->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
+    ui->label_10->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
+    ui->label_11->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
 
     stylesheet_path = "://CSS/Button.txt";
     ui->Download_Dir_BTN->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
@@ -160,7 +166,7 @@ void Settings::DrawGUI()                                              //Рисо
                 "color:white;"
                 );
 
-    ui->Icon->setStyleSheet("border-image: url(:/new/prefix1/vk.ico) stretch;");
+    ui->Icon->setStyleSheet("border-image: url(:/new/prefix1/icons/vkp2.ico) stretch;");
     ui->CloseApp->setStyleSheet("border-image: url(:/new/prefix1/icons/close.gif) stretch;");
 
     ui->tableWidget->setEditTriggers(NULL);
@@ -380,6 +386,9 @@ void Settings::DownloadSettings()                                     //Загр
     valupdate = settings->value("Update/Val").toInt();
     ui->spinBox_Text_Song->setValue(settings->value("TextSongSpeed/val").toInt());
     ui->checkBox_Notification->setChecked(settings->value("Show_Notification/val").toBool());
+    ui->Search_lyrics_only->setChecked(settings->value("Search_lyrics_only/val").toBool());
+    ui->Search_performer_only->setChecked(settings->value("Search_performer_only/val").toBool());
+    ui->Search_user_only->setChecked(settings->value("Search_user_only/val").toBool());
     ui->checkBox_Hide_Tray->setChecked(settings->value("Hide_To_Tray/val").toBool());
 
      if(valupdate == 1)
@@ -452,6 +461,15 @@ void Settings::apply_new_HotKey(QString key_one, QString key_two, int id_key_one
     qDebug()<<key_two << " " << key_one << "" << row;
     emit send_new_hotkey(row, id_key_one, id_key_two);
     ui->tableWidget->item(row, 0)->setText(key_one + " + " + key_two);
+}
+
+void Settings::Save_Search_options()
+{
+    QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
+    settings->setValue("Search_lyrics_only/val", ui->Search_lyrics_only->isChecked());
+    settings->setValue("Search_performer_only/val", ui->Search_performer_only->isChecked());
+    settings->setValue("Search_user_only/val", ui->Search_user_only->isChecked());
+    settings->sync();
 }
 
 

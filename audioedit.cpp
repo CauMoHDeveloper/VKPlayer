@@ -182,7 +182,7 @@ void AudioEdit::DrawGUI()                                        //Рисова�
                 "color:white;"
                 );
 
-    ui->Icon->setStyleSheet("border-image: url(:/new/prefix1/vk.ico) stretch;");
+    ui->Icon->setStyleSheet("border-image: url(:/new/prefix1/icons/vkp2.ico) stretch;");
 }
 
 void AudioEdit::on_CloseApp_clicked()

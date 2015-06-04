@@ -156,7 +156,7 @@ void Registration_Key::DrawGUI()
                 "color:white;"
                 );
 
-    ui->Icon->setStyleSheet("border-image: url(:/new/prefix1/vk.ico) stretch;");
+    ui->Icon->setStyleSheet("border-image: url(:/new/prefix1/icons/vkp2.ico) stretch;");
 }
 
 void Registration_Key::filling_hotkey()
