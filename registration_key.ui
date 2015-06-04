@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Edit hotkey</string>
   </property>
   <widget class="QLineEdit" name="this_keys">
    <property name="enabled">

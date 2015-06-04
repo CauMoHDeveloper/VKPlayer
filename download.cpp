@@ -216,36 +216,6 @@ void Download::error_Reply(QNetworkReply::NetworkError error)
         messages->show();
         break;
 
-    case QNetworkReply::ContentConflictError:
-        text = "the request could not be completed due to a conflict with the current state of the resource.";
-        messages->set_Title_and_Text(title, text, false, false);
-        messages->show();
-        break;
-
-    case QNetworkReply::ContentGoneError:
-        text = "the requested resource is no longer available at the server.";
-        messages->set_Title_and_Text(title, text, false, false);
-        messages->show();
-        break;
-
-    case QNetworkReply::InternalServerError:
-        text = "the server encountered an unexpected condition which prevented it from fulfilling the request..";
-        messages->set_Title_and_Text(title, text, false, false);
-        messages->show();
-        break;
-
-    case QNetworkReply::OperationNotImplementedError:
-        text = "the server does not support the functionality required to fulfill the request.";
-        messages->set_Title_and_Text(title, text, false, false);
-        messages->show();
-        break;
-
-    case QNetworkReply::ServiceUnavailableError:
-        text = "the server is unable to handle the request at this time.";
-        messages->set_Title_and_Text(title, text, false, false);
-        messages->show();
-        break;
-
     case QNetworkReply::ProtocolUnknownError:
         text = "the Network Access API cannot honor the request because the protocol is not known.";
         messages->set_Title_and_Text(title, text, false, false);
@@ -266,12 +236,6 @@ void Download::error_Reply(QNetworkReply::NetworkError error)
 
     case QNetworkReply::ProtocolFailure:
         text = "a breakdown in protocol was detected (parsing error, invalid or unexpected responses, etc.)";
-        messages->set_Title_and_Text(title, text, false, false);
-        messages->show();
-        break;
-
-    case QNetworkReply::UnknownServerError:
-        text = "an unknown error related to the server response was detected";
         messages->set_Title_and_Text(title, text, false, false);
         messages->show();
         break;

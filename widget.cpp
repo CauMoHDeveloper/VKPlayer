@@ -7,7 +7,7 @@
 #include "messages.h"
 #include <QFont>
 #include <QRgb>
-//                                                     VKPLAYER 3.0 beta 1                                  //
+//                                                     VKPLAYER 3.0 beta 1                              //
 
 //    Разработчик :  НЕСТЕРОВ ВЯЧЕСЛАВ АНАТОЛЬЕВИЧ
 
@@ -129,8 +129,13 @@ Widget::Widget(WidgetParent *parent) :
     //Объект класса получение списка аудиозаписей
     audiopop = new VkAudiopop();
     //Создание плеера
+    /*ThreadPlayer *threadplayer = new ThreadPlayer();
+    connect(threadplayer, SIGNAL(sendPointPlayer(QMediaPlayer *)),
+            this, SLOT(CreatePlayer(QMediaPlayer *)));
+    connect(threadplayer, SIGNAL(finished()),this, SLOT(run_adGuard()));
+    threadplayer->start(QThread::HighPriority);*/
     player = new QMediaPlayer();
-    player->setNotifyInterval(100);
+    player->setNotifyInterval(1000);
 
     //threadPlay->runThread();
     /*QAudioProbe *probe = new QAudioProbe();
@@ -152,17 +157,14 @@ Widget::Widget(WidgetParent *parent) :
     ui->PhotoFriend->hide();
     ui->PhotoGroup->hide();
     ui->Lyrics_BTN->hide();
+
+    Status = new vk_post_status();
+    lock_Status = false;
     //Инициализировать трей
     this->initialization_Tray();
 
     //Загрузить дизайн интерфейса
-    try{
     this->DrawGUI();
-    }
-    catch(QException)
-    {
-    }
-
     //Соединить Сигналы и слоты
     this->initialization_SignalSlot();
     //Сгенерировать ID проги
@@ -226,6 +228,14 @@ Widget::Widget(WidgetParent *parent) :
 Widget::~Widget()
 {
     delete ui;
+}
+
+void Widget::CreatePlayer(QMediaPlayer *obj)
+{
+    qDebug()<<obj->thread();
+    qDebug()<<player->thread();
+    player = obj;
+    qDebug()<<player;
 }
 
 bool Widget::eventFilter(QObject* watched, QEvent* event){
@@ -888,12 +898,11 @@ void Widget::ProcessingSong(int tmpRow)
 
               textsong->setString(" ");
 
-
              player->setMedia(QMediaContent(QUrl(Url_song)));
 
              player->play();
 
-              if(status_enable == 1 && ui->post_Status->isEnabled() == true)
+              if(status_enable == 1 && !lock_Status)
                 this->install_status();
 
         }
@@ -2008,6 +2017,9 @@ void Widget::initialization_SignalSlot()
     connect(ui->Search_Line,SIGNAL(selectionChanged()),          //Очистить строку посика
             ui->Search_Line,SLOT(clear()));
 
+    connect(Status, SIGNAL(send_result()),
+            this, SLOT(print_enable_status()));   //reset lock status
+
     //Сигналы и слоты Слайдера песни
     //connect(ui->horizontalSlider,SIGNAL(sliderReleased()),this,SLOT(positionTHREE()));
     connect(player,SIGNAL(positionChanged(qint64)),this,SLOT(positionREVERS(qint64)));
@@ -2662,11 +2674,12 @@ void Widget::exit_Account()
 //Загрузка музыки
 void Widget::Download_fuction(int flag, QString artist, QString title, QString url)
 {
-    Download * download = new Download();                          //Объект класса "Загрузка"
+    Download * download = new Download();
+    //Объект класса "Загрузка"
     connect(download,SIGNAL(complete()),                           //Завершение загрузки композиции
             this,SLOT(Complete_D()));
-    connect(this, SIGNAL(complete_Download_Song()),
-            download, SLOT(deleteLater()));
+   /* connect(this, SIGNAL(complete_Download_Song()),
+            download, SLOT(deleteLater()));*/
 
 
     if(directory.isEmpty() || !QDir(directory).exists())
@@ -2918,15 +2931,8 @@ void Widget::on_Lyrics_BTN_clicked()
 
 //Запрос на установление статуса
 void Widget::install_status()
-{
-    vk_post_status * Status = new vk_post_status();
-
-    ui->post_Status->setEnabled(false);
-
-    connect(Status, SIGNAL(send_result()),
-            this, SLOT(print_enable_status()));
-    connect(this, SIGNAL(complete_Install_status()),
-            Status, SLOT(deleteLater()));
+{    
+    lock_Status = true;
 
     if(status_enable == 1)
     {
@@ -2943,45 +2949,48 @@ void Widget::install_status()
 //Разблокировка кнопки статуса после включения
 void Widget::print_enable_status()
 {
-    ui->post_Status->setEnabled(true);
-    emit complete_Install_status();
+    lock_Status = false;
+    qDebug()<<"fdsfdsf";
 }
 
 //Нажатие на кнопку "Установить статус"
 void Widget::on_post_Status_clicked()
 {
-    QRect rect = ui->post_Status->geometry();
-    int X = rect.x();
-    int Y = rect.y();
-    QPropertyAnimation *animation = new QPropertyAnimation(ui->post_Status, "geometry");
-    animation->setDuration(100);
-     animation->setStartValue(QRect(X+10, Y+10, 1, 1));
-     animation->setEndValue(QRect(X, Y, 20, 20));
-     animation->start();
-
-    if(status_enable == 0)
+    qDebug()<<lock_Status;
+    if(!lock_Status)
     {
-        ui->post_Status->setStyleSheet("border-image: url(:/new/prefix1/icons/status_on.png) stretch;");
-        status_enable = 1;
-        osd->SetMessage("VKPlayer", "Трансляция в статус - ON", QImage(":/new/prefix1/vk.ico"));
+        QRect rect = ui->post_Status->geometry();
+        int X = rect.x();
+        int Y = rect.y();
+        QPropertyAnimation *animation = new QPropertyAnimation(ui->post_Status, "geometry");
+        animation->setDuration(100);
+         animation->setStartValue(QRect(X+10, Y+10, 1, 1));
+         animation->setEndValue(QRect(X, Y, 20, 20));
+         animation->start();
 
-        if(show_Notif)
-            osd->show();
+        if(status_enable == 0)
+        {
+            ui->post_Status->setStyleSheet("border-image: url(:/new/prefix1/icons/status_on.png) stretch;");
+            status_enable = 1;
+            osd->SetMessage("VKPlayer", "Трансляция в статус - ON", QImage(":/new/prefix1/vk.ico"));
+
+            if(show_Notif)
+                osd->show();
+        }
+        else
+        {
+            ui->post_Status->setStyleSheet("border-image: url(:/new/prefix1/icons/status_off.png) stretch;");
+            status_enable = 0;
+            osd->SetMessage("VKPlayer", "Трансляция в статус - OFF", QImage(":/new/prefix1/vk.ico"));
+            if(show_Notif)
+                osd->show();
+        }
+
+        QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
+        settings->setValue("Status_Enable/val", status_enable);
+
+        this->install_status();
     }
-    else
-    {
-        ui->post_Status->setStyleSheet("border-image: url(:/new/prefix1/icons/status_off.png) stretch;");
-        status_enable = 0;
-        osd->SetMessage("VKPlayer", "Трансляция в статус - OFF", QImage(":/new/prefix1/vk.ico"));
-        if(show_Notif)
-            osd->show();
-    }
-
-    QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
-    settings->setValue("Status_Enable/val", status_enable);
-
-    ui->post_Status->setEnabled(false);
-    this->install_status();   
 }
 
 //Нажатие на кнопку "Поддержать"

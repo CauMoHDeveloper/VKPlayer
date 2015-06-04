@@ -1,17 +1,24 @@
 #include "threadplayer.h"
 #include <QThread>
 
-ThreadPlayer::ThreadPlayer(QObject *parent) :
-    QObject(parent)
+ThreadPlayer::ThreadPlayer()
 {
+    connect(this, SIGNAL(started()),
+            this, SLOT(PlayerStarted()));
 }
 
-void ThreadPlayer::runThread()
+ThreadPlayer::~ThreadPlayer()
 {
-    QThread *thread = new QThread;
+
+}
+
+void ThreadPlayer::run()
+{
     player = new QMediaPlayer();
-    player->setNotifyInterval(100);
-    player->moveToThread(thread);
-    thread->start();
-    thread->setPriority(QThread::HighPriority);
+    exec();
+}
+
+void ThreadPlayer::PlayerStarted()
+{
+    emit sendPointPlayer(player);
 }

@@ -17,7 +17,7 @@ public:
 
 public slots:
     QByteArray GET(QUrl r);
-
+    void SSLerror(QNetworkReply*reply, QList<QSslError> error);
 
 signals:
     void data_get(QByteArray answer);

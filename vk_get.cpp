@@ -17,7 +17,10 @@ QByteArray VkGet::GET(QUrl r)   //Сетевое взаимодействие с
     try
     {
         QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-        QNetworkReply* reply = manager->get(QNetworkRequest(r));
+        connect(manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
+                this, SLOT(SSLerror(QNetworkReply*,QList<QSslError>)));
+        QNetworkReply* reply;
+        reply = manager->get(QNetworkRequest(r));
         QEventLoop wait;
         connect(manager, SIGNAL(finished(QNetworkReply*)), &wait, SLOT(quit()));
         QTimer::singleShot(20000, &wait, SLOT(quit()));
@@ -34,6 +37,11 @@ QByteArray VkGet::GET(QUrl r)   //Сетевое взаимодействие с
     {
         return "";
     }
+}
+
+void VkGet::SSLerror(QNetworkReply *reply, QList<QSslError> error)
+{
+    qDebug()<<error;
 }
 
 VkGet::~VkGet()

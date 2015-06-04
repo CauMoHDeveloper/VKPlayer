@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Плеер ВК</string>
+   <string>Authorization</string>
   </property>
   <property name="windowIcon">
    <iconset resource="res.qrc">

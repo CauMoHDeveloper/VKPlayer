@@ -3,18 +3,27 @@
 
 #include <QObject>
 #include <QMediaPlayer>
+#include <QThread>
 
-class ThreadPlayer : public QObject
+class ThreadPlayer : public QThread
 {
     Q_OBJECT
 public:
-    explicit ThreadPlayer(QObject *parent = 0);
-    QMediaPlayer *player;
+    ThreadPlayer();
+    ~ThreadPlayer();
+
+protected:
+    void run();
+
+private slots:
+    void PlayerStarted();
 
 signals:
+    void sendPointPlayer(QMediaPlayer *obj);
 
-public slots:
-    void runThread();
+public:
+    QMediaPlayer *player;
+
 };
 
 #endif // THREADPLAYER_H

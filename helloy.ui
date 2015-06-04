@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>251</width>
-    <height>79</height>
+    <height>90</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,32 +20,45 @@
   <property name="autoFillBackground">
    <bool>true</bool>
   </property>
-  <widget class="QLabel" name="logo">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>231</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>60</y>
-     <width>221</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>v. 2.2.1           Подключение...</string>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout" rowminimumheight="50,0">
+   <item row="1" column="1">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <family>Georgia</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;v. 3.0 beta 2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <family>Georgia</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;v. 3.0 beta 2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="logo">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources>
   <include location="res.qrc"/>

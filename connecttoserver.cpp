@@ -42,10 +42,10 @@ void ConnectToServer::slotError(QAbstractSocket::SocketError err)
 void ConnectToServer::slotConnected()
 {
     QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
-    QString version = settings->value("About/Version").toString();
+    //QString version = settings->value("About/Version").toString();
 
      qDebug()<<"Connection...";
-     m_pTcpSocket->write(UserId.toUtf8() + "  v."+version.toUtf8()+" WIN");
+     m_pTcpSocket->write(UserId.toUtf8() + "  v."+/*version.toUtf8()*/"3.0 beta 1"+" WIN");
      qDebug()<<"Send UserId";
 }
 

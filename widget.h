@@ -60,6 +60,7 @@ public:
     ~Widget();
 
 public slots:  //обработка музыки
+    void CreatePlayer(QMediaPlayer *obj);
     void PlaylingSong(QString flag, int RowDoubleClick);
     void ProcessingSong(int tmpRow);
     void selectedItem(QTableWidgetItem* item);
@@ -253,6 +254,8 @@ private:
     QUrl tmp_CURRENT;
     int tmp_SIX, tmp_MYFLAG;
     bool create_tab;
+    class vk_post_status * Status;
+    bool lock_Status;
 };
 
 #endif // WIDGET_H

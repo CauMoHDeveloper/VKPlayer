@@ -15,7 +15,10 @@ public slots:
     void StartCheck();
     void StartUpdate();
     void replyFinished (QNetworkReply *reply);
+    void dataReadProgress(qint64 done, qint64 total);   //Вывод загрузки в прогресс диалог
     void downloader();
+    void error_Reply(QNetworkReply::NetworkError);
+    void error_Ssl(QList<QSslError>);
 
 
 signals:
@@ -29,6 +32,9 @@ private:
     int flag;
     QString version;
     QString url;
+    QProgressDialog * progress;       //объект класса прогресс
+    class Messages *messagesStartUpdate;
+    bool Stop_update;
 };
 
 #endif // UPDATEVERSION_H
