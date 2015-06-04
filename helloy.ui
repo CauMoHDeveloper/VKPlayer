@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="res.qrc">
-    <normaloff>:/new/prefix1/vk.ico</normaloff>:/new/prefix1/vk.ico</iconset>
+    <normaloff>:/new/prefix1/icons/vkp2.ico</normaloff>:/new/prefix1/icons/vkp2.ico</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Messages</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/new/prefix1/icons/vkp2.ico</normaloff>:/new/prefix1/icons/vkp2.ico</iconset>
+  </property>
   <widget class="QPushButton" name="Download_Button">
    <property name="geometry">
     <rect>
@@ -149,6 +153,8 @@ p, li { white-space: pre-wrap; }
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

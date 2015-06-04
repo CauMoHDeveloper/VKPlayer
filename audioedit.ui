@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Edit song</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/new/prefix1/icons/vkp2.ico</normaloff>:/new/prefix1/icons/vkp2.ico</iconset>
+  </property>
   <widget class="QPushButton" name="CloseApp">
    <property name="geometry">
     <rect>
@@ -296,6 +300,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

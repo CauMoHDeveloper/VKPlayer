@@ -1,4 +1,4 @@
-IDI_ICON1               ICON    DISCARDABLE     "vk.ico"
+IDI_ICON1               ICON    DISCARDABLE     "vkp2.ico"
 #ifndef Q_CC_BOR
 # if defined(UNDER_CE) && UNDER_CE >= 400
 #  include <winbase.h>

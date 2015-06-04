@@ -39,6 +39,8 @@
         <file>icons/wall.png</file>
         <file>icons/x.gif</file>
         <file>icons/scroll.png</file>
+        <file>icons/vkp.ico</file>
+        <file>icons/vkp2.ico</file>
         <file>icons/album.png</file>
         <file>icons/note.png</file>
     </qresource>

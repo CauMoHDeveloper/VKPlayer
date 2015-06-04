@@ -1157,7 +1157,7 @@ void Widget::print_duration(qint64 ab)
 
         textsong->setString(tmpNameSong + "                                                         ");   //Вывести название песни в строку в плеере
 
-        osd->SetMessage(Artist_song,Title_song,QImage(":/new/prefix1/vk.ico"));
+        osd->SetMessage(Artist_song,Title_song,QImage(":/new/prefix1/icons/vkp2.ico"));
         if(show_Notif)
             osd->show();
     }
@@ -1765,7 +1765,7 @@ void Widget::print_Image_Player_State(QMediaPlayer::State state)
     case QMediaPlayer::PlayingState:
         ui->PlayButton->setStyleSheet("border-image: url(:/new/prefix1/icons/pause.gif) stretch;");
         trIcon->setIcon(QIcon(QPixmap(":/new/prefix1/icons/pause.gif")));
-        osd->SetMessage("Сейчас играет",Artist_song + " - " + Title_song,QImage(":/new/prefix1/vk.ico"));
+        osd->SetMessage("Сейчас играет",Artist_song + " - " + Title_song,QImage(":/new/prefix1/icons/vkp2.ico"));
         if(show_Notif)
             osd->show();
         break;
@@ -1773,7 +1773,7 @@ void Widget::print_Image_Player_State(QMediaPlayer::State state)
     case QMediaPlayer::PausedState:
         ui->PlayButton->setStyleSheet("border-image: url(:/new/prefix1/icons/play.gif) stretch;");
         trIcon->setIcon(QIcon(QPixmap(":/new/prefix1/icons/play.gif")));
-        osd->SetMessage("VKPlayer", "Приостановлено", QImage(":/new/prefix1/vk.ico"));
+        osd->SetMessage("VKPlayer", "Приостановлено", QImage(":/new/prefix1/icons/vkp2.ico"));
         if(show_Notif)
             osd->show();
         break;
@@ -1782,7 +1782,7 @@ void Widget::print_Image_Player_State(QMediaPlayer::State state)
     case QMediaPlayer::StoppedState:
         ui->PlayButton->setStyleSheet("border-image: url(:/new/prefix1/icons/play.gif) stretch;");
         trIcon->setIcon(QIcon(QPixmap(":/new/prefix1/icons/play.gif")));
-        osd->SetMessage("VKPlayer", "Остановлено", QImage(":/new/prefix1/vk.ico"));
+        osd->SetMessage("VKPlayer", "Остановлено", QImage(":/new/prefix1/icons/vkp2.ico"));
         if(show_Notif)
             osd->show();
         textsong->setString(" ");
@@ -3015,7 +3015,7 @@ void Widget::on_post_Status_clicked()
         {
             ui->post_Status->setStyleSheet("border-image: url(:/new/prefix1/icons/status_on.png) stretch;");
             status_enable = 1;
-            osd->SetMessage("VKPlayer", "Трансляция в статус - ON", QImage(":/new/prefix1/vk.ico"));
+            osd->SetMessage("VKPlayer", "Трансляция в статус - ON", QImage(":/new/prefix1/icons/vkp2.ico"));
 
             if(show_Notif)
                 osd->show();
@@ -3024,7 +3024,7 @@ void Widget::on_post_Status_clicked()
         {
             ui->post_Status->setStyleSheet("border-image: url(:/new/prefix1/icons/status_off.png) stretch;");
             status_enable = 0;
-            osd->SetMessage("VKPlayer", "Трансляция в статус - OFF", QImage(":/new/prefix1/vk.ico"));
+            osd->SetMessage("VKPlayer", "Трансляция в статус - OFF", QImage(":/new/prefix1/icons/vkp2.ico"));
             if(show_Notif)
                 osd->show();
         }
@@ -3095,8 +3095,8 @@ void Widget::on_Open_Albums_clicked()
     int Y = rect.y();
     QPropertyAnimation *animation = new QPropertyAnimation(ui->Open_Albums, "geometry");
     animation->setDuration(100);
-     animation->setStartValue(QRect(X+15, Y+9, 1, 1));
-     animation->setEndValue(QRect(X, Y, 30, 18));
+     animation->setStartValue(QRect(X+13, Y+13, 1, 1));
+     animation->setEndValue(QRect(X, Y, 26, 26));
      animation->start();
      ui->List_Albums->showPopup();
 }
