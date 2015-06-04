@@ -420,6 +420,8 @@ void Settings::DownloadSettings()                                     //Загр
         ui->tableWidget->item(2,0)->setText(settings->value("HotKey_Previous/Key_Name").toString());
         ui->tableWidget->item(3,0)->setText(settings->value("HotKey_Add/Key_Name").toString());
         ui->tableWidget->item(4,0)->setText(settings->value("HotKey_Download/Key_Name").toString());
+        ui->tableWidget->item(5,0)->setText(settings->value("HotKey_VolumeUp/Key_Name").toString());
+        ui->tableWidget->item(6,0)->setText(settings->value("HotKey_VolumeDown/Key_Name").toString());
 
         settings->sync();
         delete settings;
@@ -447,7 +449,7 @@ void Settings::selectedItem(QTableWidgetItem * item)
 void Settings::apply_new_HotKey(QString key_one, QString key_two, int id_key_one, int id_key_two, int row)
 {
     ui->tableWidget->item(row,0)->setSelected(false);
-    qDebug()<<key_two << " " << key_one;
+    qDebug()<<key_two << " " << key_one << "" << row;
     emit send_new_hotkey(row, id_key_one, id_key_two);
     ui->tableWidget->item(row, 0)->setText(key_one + " + " + key_two);
 }
@@ -538,6 +540,20 @@ void Settings::on_Default_HotKey_clicked()
         settings->setValue("HotKey_Download/Key_Name", "Alt + D");
         emit send_new_hotkey(4, 1, 68);
         ui->tableWidget->item(4,0)->setText("Alt + D");
+
+        settings->setValue("HotKey_VolumeUp/id_HotKey", "5");
+        settings->setValue("HotKey_VolumeUp/id_One_Key", "1");
+        settings->setValue("HotKey_VolumeUp/id_Two_Key", "79");
+        settings->setValue("HotKey_VolumeUp/Key_Name", "Alt + O");
+        emit send_new_hotkey(5, 1, 79);
+        ui->tableWidget->item(5,0)->setText("Alt + O");
+
+        settings->setValue("HotKey_VolumeDown/id_HotKey", "6");
+        settings->setValue("HotKey_VolumeDown/id_One_Key", "1");
+        settings->setValue("HotKey_VolumeDown/id_Two_Key", "73");
+        settings->setValue("HotKey_VolumeDown/Key_Name", "Alt + I");
+        emit send_new_hotkey(6, 1, 80);
+        ui->tableWidget->item(6,0)->setText("Alt + P");
 
         settings->sync();
 }

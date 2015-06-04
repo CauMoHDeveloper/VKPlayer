@@ -116,6 +116,12 @@
 //-Изменено перемещение по всем слайдерам в программе
 //-Добавлено отправление на сервер статистики информации о загрузки музыки с плеера
 
+//Что нового в версии 3.0
+
+//-Немного изменен интерфейс приложения
+//-Добавлены списки альбомов пользователя
+//-Добавлены горячие клавиши для управления громкостью
+
 using namespace QtJson;
 
 Widget::Widget(WidgetParent *parent) :
@@ -362,6 +368,16 @@ void Widget::register_inregister_hotkey(int Id_Register_HotKey, int id_One_Key, 
         id_Two_Key = settings->value("HotKey_Download/id_Two_Key").toInt();
         RegisterHotKey(hWnd, Id_Register_HotKey, id_One_Key, id_Two_Key);
 
+        Id_Register_HotKey = settings->value("HotKey_VolumeUp/id_HotKey").toInt();
+        id_One_Key = settings->value("HotKey_VolumeUp/id_One_Key").toInt();
+        id_Two_Key = settings->value("HotKey_VolumeUp/id_Two_Key").toInt();
+        RegisterHotKey(hWnd, Id_Register_HotKey, id_One_Key, id_Two_Key);
+
+        Id_Register_HotKey = settings->value("HotKey_VolumeDown/id_HotKey").toInt();
+        id_One_Key = settings->value("HotKey_VolumeDown/id_One_Key").toInt();
+        id_Two_Key = settings->value("HotKey_VolumeDown/id_Two_Key").toInt();
+        RegisterHotKey(hWnd, Id_Register_HotKey, id_One_Key, id_Two_Key);
+
         return;
     }
     UnregisterHotKey(hWnd, Id_Register_HotKey);
@@ -408,15 +424,31 @@ void Widget::run_adGuard()
 
 void Widget::start_group_VK()
 {
-    try{
-    VkGet *get = new VkGet;
+    try
+    {
+        VkGet *get = new VkGet;
 
-    QUrl current("https://api.vk.com/method/groups.join");
-    QUrlQuery reqParams;
-    reqParams.addQueryItem("group_id", "69212808");
-    reqParams.addQueryItem("access_token", Token);
-    current.setQuery(reqParams);
-    get->GET(current);
+        QUrl current("https://api.vk.com/method/groups.isMember");
+        QUrlQuery reqParams;
+        reqParams.addQueryItem("group_id", "69212808");
+        reqParams.addQueryItem("user_id", UsId);
+        reqParams.addQueryItem("extended", "0");
+        current.setQuery(reqParams);
+        if(!get->GET(current).contains("error"))
+        {
+            QByteArray tmp = get->GET(current);
+            qDebug()<<tmp;
+            if(tmp.contains("0"))
+            {
+                reqParams.clear();
+                QUrl GroupJoin("https://api.vk.com/method/groups.join");
+                QUrlQuery reqParams;
+                reqParams.addQueryItem("group_id", "69212808");
+                reqParams.addQueryItem("access_token", Token);
+                GroupJoin.setQuery(reqParams);
+                get->GET(GroupJoin);
+            }
+        }
     }
     catch(QException)
     {
@@ -563,6 +595,18 @@ bool Widget::nativeEvent(const QByteArray & eventType, void * message, long * re
         if (msg->wParam == 4)
         {
             ui->DownloadButton->clicked();
+            return true;
+        }
+        if (msg->wParam == 5)
+        {
+            int tmp = ui->dial->value() + 1;
+            ui->dial->setValue(tmp);
+            return true;
+        }
+        if (msg->wParam == 6)
+        {
+            int tmp = ui->dial->value() - 1;
+            ui->dial->setValue(tmp);
             return true;
         }
     }

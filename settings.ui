@@ -404,6 +404,16 @@
        <string>Загрузить</string>
       </property>
      </row>
+     <row>
+      <property name="text">
+       <string>Громкость +</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>Громкость -</string>
+      </property>
+     </row>
      <column>
       <property name="text">
        <string>Гор. клавиша</string>
@@ -432,6 +442,16 @@
      <item row="4" column="0">
       <property name="text">
        <string>Alt + D</string>
+      </property>
+     </item>
+     <item row="5" column="0">
+      <property name="text">
+       <string>Alt + O</string>
+      </property>
+     </item>
+     <item row="6" column="0">
+      <property name="text">
+       <string>Alt + I</string>
       </property>
      </item>
     </widget>

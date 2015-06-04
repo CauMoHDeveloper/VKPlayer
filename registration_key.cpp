@@ -252,6 +252,18 @@ void Registration_Key::on_register_hothey_clicked()
         settings->setValue("HotKey_Download/Key_Name", Key_One + " + " + Key_Two);
         settings->sync();
     }
+    if(row == 5){
+        settings->setValue("HotKey_VolumeUp/id_One_Key", id_Key_One);
+        settings->setValue("HotKey_VolumeUp/id_Two_Key", id_Key_two);
+        settings->setValue("HotKey_VolumeUp/Key_Name", Key_One + " + " + Key_Two);
+        settings->sync();
+    }
+    if(row == 6){
+        settings->setValue("HotKey_VolumeDown/id_One_Key", id_Key_One);
+        settings->setValue("HotKey_VolumeDown/id_Two_Key", id_Key_two);
+        settings->setValue("HotKey_VolumeDown/Key_Name", Key_One + " + " + Key_Two);
+        settings->sync();
+    }
     emit sendEnabler(true);
     emit send_HotKey(Key_One, Key_Two, id_Key_One, id_Key_two, row);
 

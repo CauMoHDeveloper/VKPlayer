@@ -209,6 +209,25 @@ void auther::DownloadSettings()                                        //Зар�
             if(settings->value("HotKey_Download/Key_Name").isNull())
                 settings->setValue("HotKey_Download/Key_Name", "Alt + D");
 
+            if(settings->value("HotKey_VolumeUp/id_HotKey").isNull())
+                settings->setValue("HotKey_VolumeUp/id_HotKey", "5");
+            if(settings->value("HotKey_VolumeUp/id_One_Key").isNull())
+                settings->setValue("HotKey_VolumeUp/id_One_Key", "1");
+            if(settings->value("HotKey_VolumeUp/id_Two_Key").isNull())
+                settings->setValue("HotKey_VolumeUp/id_Two_Key", "79");
+            if(settings->value("HotKey_VolumeUp/Key_Name").isNull())
+                settings->setValue("HotKey_VolumeUp/Key_Name", "Alt + O");
+
+            if(settings->value("HotKey_VolumeDown/id_HotKey").isNull())
+                settings->setValue("HotKey_VolumeDown/id_HotKey", "6");
+            if(settings->value("HotKey_VolumeDown/id_One_Key").isNull())
+                settings->setValue("HotKey_VolumeDown/id_One_Key", "1");
+            if(settings->value("HotKey_VolumeDown/id_Two_Key").isNull())
+                settings->setValue("HotKey_VolumeDown/id_Two_Key", "73");
+            if(settings->value("HotKey_VolumeDown/Key_Name").isNull())
+                settings->setValue("HotKey_VolumeDown/Key_Name", "Alt + P");
+
+
             settings->sync();
 
     R = settings->value("Color/R").toInt();
