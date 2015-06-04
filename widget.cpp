@@ -290,7 +290,7 @@ void Widget::mark_Song()
     QTableWidgetItem* itemtmp = new QTableWidgetItem();
     itemtmp = ui->tableWidget->item(row, 0);
     ui->tableWidget->setItemSelected(itemtmp,true);
-    itemtmp->setIcon(QIcon(":/new/prefix1/icons/play.gif"));
+    itemtmp->setIcon(QIcon(":/new/prefix1/icons/vkp2.ico"));
     itemtmp = ui->tableWidget->item(row, 1);
     ui->tableWidget->setItemSelected(itemtmp,true);
     itemtmp = ui->tableWidget->item(row, 2);
@@ -932,7 +932,7 @@ void Widget::ProcessingSong(int tmpRow)
               itemtmp = ui->tableWidget->item(row, 3);
               ui->tableWidget->setItemSelected(itemtmp,false);
               row = Artist->row();
-              Artist->setIcon(QIcon(":/new/prefix1/icons/play.gif"));
+              Artist->setIcon(QIcon(":/new/prefix1/icons/vkp2.ico"));
               ui->tableWidget->setCurrentItem(Artist);
               ui->tableWidget->setItemSelected(Artist,true);
               ui->tableWidget->setItemSelected(Title,true);

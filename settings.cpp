@@ -570,8 +570,8 @@ void Settings::on_Default_HotKey_clicked()
         settings->setValue("HotKey_VolumeDown/id_One_Key", "1");
         settings->setValue("HotKey_VolumeDown/id_Two_Key", "73");
         settings->setValue("HotKey_VolumeDown/Key_Name", "Alt + I");
-        emit send_new_hotkey(6, 1, 80);
-        ui->tableWidget->item(6,0)->setText("Alt + P");
+        emit send_new_hotkey(6, 1, 73);
+        ui->tableWidget->item(6,0)->setText("Alt + I");
 
         settings->sync();
 }
