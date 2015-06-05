@@ -33,7 +33,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
@@ -65,31 +65,24 @@
       <string>Выйти из аккаунта</string>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>0</y>
-       <width>411</width>
-       <height>191</height>
+       <y>10</y>
+       <width>401</width>
+       <height>181</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Скорость бегущей строки</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::AutoText</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
        <widget class="QSpinBox" name="spinBox_Text_Song">
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
@@ -113,20 +106,32 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_9">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="text">
-         <string>Поиск только по исполнителю</string>
+         <string>Скорость бегущей строки</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QCheckBox" name="Search_performer_only">
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_8">
         <property name="text">
-         <string/>
+         <string>Сворачивать в трей</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -147,7 +152,47 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="checkBox_Hide_Tray">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_5">
+    <attribute name="title">
+     <string>Поиск</string>
+    </attribute>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>10</y>
+       <width>401</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="bottomMargin">
+       <number>20</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>40</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>20</number>
+      </property>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="Search_user_only">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
        <widget class="QLabel" name="label_10">
         <property name="text">
          <string>Поиск только с текстом песни</string>
@@ -157,44 +202,37 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_8">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Сворачивать в трей</string>
+         <string>Поиск только по исполнителю</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QCheckBox" name="checkBox_Hide_Tray">
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="Search_performer_only">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
+      <item row="1" column="1">
        <widget class="QCheckBox" name="Search_lyrics_only">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_11">
         <property name="text">
          <string>Искать по аудиозаписям пользователя</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QCheckBox" name="Search_user_only">
-        <property name="text">
-         <string/>
         </property>
        </widget>
       </item>
@@ -375,7 +413,7 @@
       <rect>
        <x>70</x>
        <y>10</y>
-       <width>281</width>
+       <width>291</width>
        <height>175</height>
       </rect>
      </property>

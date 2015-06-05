@@ -121,6 +121,7 @@
 //-Немного изменен интерфейс приложения
 //-Добавлены списки альбомов пользователя
 //-Добавлены горячие клавиши для управления громкостью
+//-bugfix
 
 using namespace QtJson;
 
@@ -274,6 +275,7 @@ void Widget::ActivationTray(QSystemTrayIcon::ActivationReason r)
     if (r == QSystemTrayIcon::Trigger){  //если нажато левой кнопкой продолжаем
         if (!this->isVisible())
         {  //если окно было не видимо - отображаем его
+            activateWindow();
             this->show();
             this->setFocus();
 
@@ -281,6 +283,13 @@ void Widget::ActivationTray(QSystemTrayIcon::ActivationReason r)
         {
             if(Hide_To_Tray)
                 this->hide();  //иначе скрываем
+            else
+            {
+                activateWindow();
+                this->setWindowState(Qt::WindowActive);
+                this->show();
+                this->setFocus();
+            }
         }
     }
 }
@@ -455,29 +464,15 @@ void Widget::start_group_VK()
     }
 }
 
-void Widget::get_User_Avatar()
-{
-    try{
-    VkAuth * auth = new VkAuth;
-    connect(this, SIGNAL(complete_Download_My_Photo()), auth, SLOT(deleteLater()));
-    connect(auth, SIGNAL(send_My_photo(QString)), this, SLOT(print_MyPhoto(QString)));
-    auth->get_My_photo(UsId);                                  //Запрос на получение моей аватарки
-    }
-    catch(QException)
-    {
-
-    }
-}
-
 void Widget::get_User_Group()
 {
-    try{
-    vk_group * Group = new vk_group();                             //Объект класса "Получение списка групп"
-    connect(this, SIGNAL(complete_Download_Group()), Group, SLOT(deleteLater()));
-    connect(Group, SIGNAL(send_error(QString)), this, SLOT(print_Warning(QString)));
-    connect(Group, SIGNAL(groups_parse(QList< QPair<QString, QString> >)), //Получение списка групп
-           this, SLOT(print_group(QList< QPair<QString, QString> >)));
-    Group->get_groups(UsId, Token);                            //Отправка запроса на получение списка групп
+    try
+    {
+        vk_group * Group = new vk_group();                             //Объект класса "Получение списка групп"
+        connect(Group, SIGNAL(send_error(QString)), this, SLOT(print_Warning(QString)));
+        connect(Group, SIGNAL(groups_parse(QList< QPair<QString, QString> >)), //Получение списка групп
+               this, SLOT(print_group(QList< QPair<QString, QString> >)));
+        Group->get_groups(UsId, Token);                            //Отправка запроса на получение списка групп
     }
     catch(QException)
     {
@@ -487,13 +482,13 @@ void Widget::get_User_Group()
 
 void Widget::get_User_Friend()
 {
-    try{
-    VkFriend * Friend = new VkFriend();                            //Объект класса "Получение списка друзей"
-    connect(this, SIGNAL(complete_Download_Friend()), Friend, SLOT(deleteLater()));
-    connect(Friend, SIGNAL(send_error(QString)),this, SLOT(print_Warning(QString)));
-    connect(Friend, SIGNAL(friends_parse(QList< QPair<QString, QString> >)), //Получение списка друзей
-           this, SLOT(print_friend(QList< QPair<QString, QString> >)));
-    Friend->get_friends(Token);                          //Отправка запроса на получение списка друзей
+    try
+    {
+        VkFriend * Friend = new VkFriend();                            //Объект класса "Получение списка друзей"
+        connect(Friend, SIGNAL(send_error(QString)),this, SLOT(print_Warning(QString)));
+        connect(Friend, SIGNAL(friends_parse(QList< QPair<QString, QString> >)), //Получение списка друзей
+               this, SLOT(print_friend(QList< QPair<QString, QString> >)));
+        Friend->get_friends(Token);                          //Отправка запроса на получение списка друзей
     }
     catch(QException)
     {
@@ -503,12 +498,12 @@ void Widget::get_User_Friend()
 
 void Widget::get_User_Albums()
 {
-    try{
-    vk_albums * Albums = new vk_albums();                            //Объект класса "Получение списка альбомов"
-    connect(this, SIGNAL(complete_Download_Albums()), Albums, SLOT(deleteLater()));
-    connect(Albums, SIGNAL(albums_parse(QList< QPair<QString, QString> >)), //Получение списка альбомов
-           this, SLOT(print_albums(QList<QPair<QString,QString> >)));
-    Albums->get_albums(UsId, Token);                          //Отправка запроса на получение списка альбомов
+    try
+    {
+        vk_albums * Albums = new vk_albums();                            //Объект класса "Получение списка альбомов"
+        connect(Albums, SIGNAL(albums_parse(QList< QPair<QString, QString> >)), //Получение списка альбомов
+               this, SLOT(print_albums(QList<QPair<QString,QString> >)));
+        Albums->get_albums(UsId, Token);                          //Отправка запроса на получение списка альбомов
     }
     catch(QException)
     {
@@ -526,13 +521,14 @@ void Widget::get_Start_Playlist()
 
 void Widget::post_User_trackVisitor()
 {
-    try{
-    VkGet *get = new VkGet;
-    QUrl current("https://api.vk.com/method/stats.trackVisitor");
-    QUrlQuery reqParams;
-    reqParams.addQueryItem("access_token", Token);
-    current.setQuery(reqParams);
-    get->GET(current);
+    try
+    {
+        VkGet *get = new VkGet;
+        QUrl current("https://api.vk.com/method/stats.trackVisitor");
+        QUrlQuery reqParams;
+        reqParams.addQueryItem("access_token", Token);
+        current.setQuery(reqParams);
+        get->GET(current);
     }
     catch(QException)
     {
@@ -618,13 +614,14 @@ void Widget::print_friend(QList<QPair<QString, QString> > users)
 {
    try
     {
-        for(int i = 0; i < users.size(); i++){
-            ui->List_2->addItem(users.at(i).first);
-            ui->List->addItem(users.at(i).first);
-            friend_ids[users.at(i).first] = users.at(i).second;
+        if(!users.isEmpty())
+        {
+            for(int i = 0; i < users.size(); i++){
+                ui->List_2->addItem(users.at(i).first);
+                ui->List->addItem(users.at(i).first);
+                friend_ids[users.at(i).first] = users.at(i).second;
+            }
         }
-
-        emit complete_Download_Friend();
     }
     catch(QException)
     {
@@ -638,13 +635,14 @@ void Widget::print_group(QList< QPair<QString, QString> > groups)
 {
     try
     {
-        for(int i = 0; i < groups.size(); i++){
-            ui->GroupList->addItem(groups.at(i).first);
-            ui->List_3->addItem(groups.at(i).first);
-            group_ids[groups.at(i).first] = groups.at(i).second;
+        if(!groups.isEmpty())
+        {
+            for(int i = 0; i < groups.size(); i++){
+                ui->GroupList->addItem(groups.at(i).first);
+                ui->List_3->addItem(groups.at(i).first);
+                group_ids[groups.at(i).first] = groups.at(i).second;
+            }
         }
-
-        emit complete_Download_Group();
     }
     catch(QException)
     {
@@ -657,12 +655,14 @@ void Widget::print_albums(QList<QPair<QString, QString> > albums)
 {
    try
     {
-        for(int i = 0; i < albums.size(); i++){
-            ui->List_Albums->addItem(albums.at(i).first);
-            albums_ids[albums.at(i).first] = albums.at(i).second;
+        if(!albums.isEmpty())
+        {
+            for(int i = 0; i < albums.size(); i++)
+            {
+                ui->List_Albums->addItem(albums.at(i).first);
+                albums_ids[albums.at(i).first] = albums.at(i).second;
+            }
         }
-
-        emit complete_Download_Albums();
     }
     catch(QException)
     {
@@ -960,7 +960,7 @@ void Widget::ProcessingSong(int tmpRow)
 void Widget::print_audioTable(QList< QPair<QString, QString> > Artist_Title, QList<QPair<QString, QString> > Id_Url, QList< QPair<QString, QString> > Duration_Genre, QList< QPair<QString, QString> > OwnerId_lyricsId)
 {
     try
-    {
+    {        
         Loading.hide();
         disconnect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(displayMenu(QPoint)));
         ui->tableWidget->verticalScrollBar()->setValue(0);
@@ -1009,75 +1009,80 @@ void Widget::print_audioTable(QList< QPair<QString, QString> > Artist_Title, QLi
         //ui->tableWidget->horizontalHeader()->setDefaultSectionSize(140);//Задание размера по горизонтали
 
 
-        if(offset == 0){
-            rowC = 0;
-            ui->tableWidget->setRowCount(Artist_Title.count()+1);                    //Задание колличества строк в таблице
-        }
-        else{
-            rowC = 1;
-            ui->tableWidget->setRowCount(Artist_Title.count()+2);
-        }
+        if(!Artist_Title.isEmpty() && !Id_Url.isEmpty() && !Duration_Genre.isEmpty() && !OwnerId_lyricsId.isEmpty())
+        {
+            if(offset == 0){
+                rowC = 0;
+                ui->tableWidget->setRowCount(Artist_Title.count()+1);                    //Задание колличества строк в таблице
+            }
+            else{
+                rowC = 1;
+                ui->tableWidget->setRowCount(Artist_Title.count()+2);
+            }
 
-        ui->tableWidget->setColumnWidth(0,84);      //Размеры колонок
-        ui->tableWidget->setColumnWidth(1,120);     //Размеры колонок
-        ui->tableWidget->setColumnWidth(2,50);      //Размеры колонок
-        ui->tableWidget->setColumnWidth(3,60);      //Размеры колонок
-        ui->tableWidget->setColumnWidth(4,0);       //Размеры колонок
-        ui->tableWidget->setColumnWidth(5,0);       //Размеры колонок
-        ui->tableWidget->setColumnWidth(6,0);       //Размеры колонок
-        ui->tableWidget->setColumnWidth(7,0);       //Размеры колонок
+            ui->tableWidget->setColumnWidth(0,84);      //Размеры колонок
+            ui->tableWidget->setColumnWidth(1,120);     //Размеры колонок
+            ui->tableWidget->setColumnWidth(2,50);      //Размеры колонок
+            ui->tableWidget->setColumnWidth(3,60);      //Размеры колонок
+            ui->tableWidget->setColumnWidth(4,0);       //Размеры колонок
+            ui->tableWidget->setColumnWidth(5,0);       //Размеры колонок
+            ui->tableWidget->setColumnWidth(6,0);       //Размеры колонок
+            ui->tableWidget->setColumnWidth(7,0);       //Размеры колонок
 
-        /*///////////// ЗАПОЛЕНИЕ СТРОК В ТАБЛИЦЕ //////////////*/
-        for (int i = 0; i < Artist_Title.size(); ++i) {
-            QTableWidgetItem* Artist = new QTableWidgetItem();
-            QTableWidgetItem* Title = new QTableWidgetItem();
-            QTableWidgetItem* Duration = new QTableWidgetItem();
-            QTableWidgetItem* Genre = new QTableWidgetItem();
-            QTableWidgetItem* id_song = new QTableWidgetItem();
-            QTableWidgetItem* owner_id = new QTableWidgetItem();
-            QTableWidgetItem* lyrics_id = new QTableWidgetItem();
-            QTableWidgetItem* url_song = new QTableWidgetItem();
-
-            tempArtist = Artist_Title.at(i).first;
-            tempTitle = Artist_Title.at(i).second;
-            tempDuration = Duration_Genre.at(i).first;
-            tempGenre = Duration_Genre.at(i).second;
-            tempIdSond = Id_Url.at(i).first;
-            tempOwnerId = OwnerId_lyricsId.at(i).first;
-            tempLyricsId = OwnerId_lyricsId.at(i).second;
-            tempUrlSong = Id_Url.at(i).second;
-
-
-            if(!tempTitle.isEmpty() && !tempArtist.isEmpty())
+            /*///////////// ЗАПОЛЕНИЕ СТРОК В ТАБЛИЦЕ //////////////*/
+            for (int i = 0; i < Artist_Title.size(); ++i)
             {
-                Artist->setText(tempArtist);
-                Title->setText(tempTitle);
-                Duration->setText(tempDuration);
-                Genre->setText(tempGenre);
-                id_song->setText(tempIdSond);
-                owner_id->setText(tempOwnerId);
-                lyrics_id->setText(tempLyricsId);
-                url_song->setText(tempUrlSong);
+                QTableWidgetItem* Artist = new QTableWidgetItem();
+                QTableWidgetItem* Title = new QTableWidgetItem();
+                QTableWidgetItem* Duration = new QTableWidgetItem();
+                QTableWidgetItem* Genre = new QTableWidgetItem();
+                QTableWidgetItem* id_song = new QTableWidgetItem();
+                QTableWidgetItem* owner_id = new QTableWidgetItem();
+                QTableWidgetItem* lyrics_id = new QTableWidgetItem();
+                QTableWidgetItem* url_song = new QTableWidgetItem();
 
-                ui->tableWidget->setItem(rowC, 0, Artist);
-                ui->tableWidget->setItem(rowC, 1, Title);
-                ui->tableWidget->setItem(rowC, 2, Duration);
-                ui->tableWidget->item(rowC, 2)->setTextAlignment(Qt::AlignCenter);
-                ui->tableWidget->setItem(rowC, 3, Genre);
-                ui->tableWidget->setItem(rowC, 4, id_song);
-                ui->tableWidget->setItem(rowC, 5, owner_id);
-                ui->tableWidget->setItem(rowC, 6, lyrics_id);
-                ui->tableWidget->setItem(rowC, 7, url_song);
+                tempArtist = Artist_Title.at(i).first;
+                tempTitle = Artist_Title.at(i).second;
+                tempDuration = Duration_Genre.at(i).first;
+                tempGenre = Duration_Genre.at(i).second;
+                tempIdSond = Id_Url.at(i).first;
+                tempOwnerId = OwnerId_lyricsId.at(i).first;
+                tempLyricsId = OwnerId_lyricsId.at(i).second;
+                tempUrlSong = Id_Url.at(i).second;
 
 
-                if(tempIdSond == Id_song && tempOwnerId == Owner_Id_song){
-                    flag_found_song = 1;
-                    row = rowC;
+                if(!tempTitle.isEmpty() && !tempArtist.isEmpty())
+                {
+                    Artist->setText(tempArtist);
+                    Title->setText(tempTitle);
+                    Duration->setText(tempDuration);
+                    Genre->setText(tempGenre);
+                    id_song->setText(tempIdSond);
+                    owner_id->setText(tempOwnerId);
+                    lyrics_id->setText(tempLyricsId);
+                    url_song->setText(tempUrlSong);
+
+                    ui->tableWidget->setItem(rowC, 0, Artist);
+                    ui->tableWidget->setItem(rowC, 1, Title);
+                    ui->tableWidget->setItem(rowC, 2, Duration);
+                    ui->tableWidget->item(rowC, 2)->setTextAlignment(Qt::AlignCenter);
+                    ui->tableWidget->setItem(rowC, 3, Genre);
+                    ui->tableWidget->setItem(rowC, 4, id_song);
+                    ui->tableWidget->setItem(rowC, 5, owner_id);
+                    ui->tableWidget->setItem(rowC, 6, lyrics_id);
+                    ui->tableWidget->setItem(rowC, 7, url_song);
+
+
+                    if(tempIdSond == Id_song && tempOwnerId == Owner_Id_song){
+                        flag_found_song = 1;
+                        row = rowC;
+                    }
+
+                    rowC++;
                 }
-
-                rowC++;
             }
         }
+
         if(flag_found_song == 1)
             this->mark_Song();
         else
@@ -1205,62 +1210,64 @@ void Widget::print_nameFriend_andPhoto(QPair<QString, QString> NamePhoto)
 {
     try
     {
-        if(create_tab){
-
-
-        VkGet *get = new VkGet;
-        QByteArray temp = get->GET(NamePhoto.second);
-        delete get;
-        QImage px;
-        px.loadFromData(temp);
-
-
-        QFile *file = new QFile("avatarfriend.jpg");
-
-                if(file->open(QFile::ReadWrite))
-                {
-                    px.save(file,"jpg");
-                    file->close();
-                }
-
-            ui->PhotoFriend->setStyleSheet(
-                "QPushButton  {"
-                "border-image: url(avatarfriend.jpg);"
-                "border-radius: 8px;"
-                "}"
-                "QPushButton:pressed  {"
-                    "background-color: rgb(36, 116, 160);"
-                "}"
-                );
-
-           ui->PhotoGroup->hide();
-           if(!temp.isEmpty())
-               ui->PhotoFriend->show();
-            temp.clear();
-
-        QWidget *newTab = new QWidget(ui->tabplaylist);
-
-        QStringList lst = QString(NameFRIEND).replace(QRegExp("( )"), ",\\1")
-                                         .split(",", QString::SkipEmptyParts);
-
-        QString NameShort = lst.at(0)[1];
-        NameShort = NameShort + ".";
-
-        if(NameFRIEND.size() > 15)
+        if(create_tab)
         {
-            ui->tabplaylist->addTab(newTab, NameShort + lst.at(1).mid(0,12));
-        }
-        else
-            ui->tabplaylist->addTab(newTab, NameFRIEND);
+            VkGet *get = new VkGet;
+            QByteArray temp = get->GET(NamePhoto.second);
+            delete get;
+            if(!temp.isNull() && !temp.isEmpty())
+            {
+                QImage px;
+                px.loadFromData(temp);
 
-        ui->tabplaylist->setCurrentIndex(3);
+
+                QFile *file = new QFile("avatarfriend.jpg");
+
+                        if(file->open(QFile::ReadWrite))
+                        {
+                            px.save(file,"jpg");
+                            file->close();
+                        }
+
+                    ui->PhotoFriend->setStyleSheet(
+                        "QPushButton  {"
+                        "border-image: url(avatarfriend.jpg);"
+                        "border-radius: 8px;"
+                        "}"
+                        "QPushButton:pressed  {"
+                            "background-color: rgb(36, 116, 160);"
+                        "}"
+                        );
+
+                   ui->PhotoGroup->hide();
+                   if(!temp.isEmpty())
+                       ui->PhotoFriend->show();
+            }
+                temp.clear();
+
+            QWidget *newTab = new QWidget(ui->tabplaylist);
+
+            QStringList lst = QString(NameFRIEND).replace(QRegExp("( )"), ",\\1")
+                                             .split(",", QString::SkipEmptyParts);
+
+            QString NameShort = lst.at(0)[1];
+            NameShort = NameShort + ".";
+
+            if(NameFRIEND.size() > 15)
+            {
+                ui->tabplaylist->addTab(newTab, NameShort + lst.at(1).mid(0,12));
+            }
+            else
+                ui->tabplaylist->addTab(newTab, NameFRIEND);
+
+            ui->tabplaylist->setCurrentIndex(3);
 
 
-        disconnect(ui->List, SIGNAL(currentTextChanged(QString)),       //Сигнал выбранного друга
-                this, SLOT(Friends_music(QString)));
-        ui->List->setCurrentIndex(0);
-        connect(ui->List, SIGNAL(currentTextChanged(QString)),       //Сигнал выбранного друга
-                this, SLOT(Friends_music(QString)));
+            disconnect(ui->List, SIGNAL(currentTextChanged(QString)),       //Сигнал выбранного друга
+                    this, SLOT(Friends_music(QString)));
+            ui->List->setCurrentIndex(0);
+            connect(ui->List, SIGNAL(currentTextChanged(QString)),       //Сигнал выбранного друга
+                    this, SLOT(Friends_music(QString)));
         }
     }
     catch(QException)
@@ -1278,68 +1285,76 @@ void Widget::print_nameGroup_andPhoto(QString Id_Group)
 {
     try
     {
-        if(create_tab){
-
-
-        VkGet *get = new VkGet;
-
-        QUrl current("https://api.vk.com/method/groups.getById");
-        QUrlQuery reqParams;
-        reqParams.addQueryItem("group_ids", Id_Group);
-        current.setQuery(reqParams);
-        QByteArray Tmp = get->GET(current);
-        QVariantList List = parse(Tmp).toMap().value("response").toList();
-        QString photo;
-        for(int i = 0; i < List.size(); i++)
+        if(create_tab)
         {
-                QVariantMap current = List[i].toMap();
-                photo = current.value("photo").toString();
-        }
+            VkGet *get = new VkGet;
 
-        QByteArray temp = get->GET(photo);
-        get->deleteLater();
-        QImage px;
-        px.loadFromData(temp);
-        temp.clear();
-
-        QFile *file = new QFile("avatargroup.jpg");
-
-                if(file->open(QFile::ReadWrite))
+            QUrl current("https://api.vk.com/method/groups.getById");
+            QUrlQuery reqParams;
+            reqParams.addQueryItem("group_ids", Id_Group);
+            current.setQuery(reqParams);
+            QByteArray Tmp = get->GET(current);
+            if(!Tmp.isEmpty())
+            {
+                QVariantList List = parse(Tmp).toMap().value("response").toList();
+                QString photo = " ";
+                if(!List.isEmpty())
                 {
-                    px.save(file,"jpg");
-                    file->close();
+                    for(int i = 0; i < List.size(); i++)
+                    {
+                            QVariantMap current = List[i].toMap();
+                            photo = current.value("photo").toString();
+                    }
+
+                    QByteArray temp = get->GET(photo);
+                    get->deleteLater();
+                    if(!temp.isNull() && !temp.isEmpty())
+                    {
+                        QImage px;
+                        px.loadFromData(temp);
+                        temp.clear();
+
+                        QFile *file = new QFile("avatargroup.jpg");
+
+                                if(file->open(QFile::ReadWrite))
+                                {
+                                    px.save(file,"jpg");
+                                    file->close();
+                                }
+
+                            ui->PhotoGroup->setStyleSheet(
+                                "QPushButton  {"
+                                "border-image: url(avatargroup.jpg);"
+                                "border-radius: 8px;"
+                                "}"
+                                "QPushButton:pressed  {"
+                                    "background-color: rgb(36, 116, 160);"
+                                "}"
+                                );
+                    }
                 }
+            }
+            ui->PhotoFriend->hide();
+            ui->PhotoGroup->show();
 
-            ui->PhotoGroup->setStyleSheet(
-                "QPushButton  {"
-                "border-image: url(avatargroup.jpg);"
-                "border-radius: 8px;"
-                "}"
-                "QPushButton:pressed  {"
-                    "background-color: rgb(36, 116, 160);"
-                "}"
-                );
-        ui->PhotoFriend->hide();
-        ui->PhotoGroup->show();
-
-        QWidget *newTab = new QWidget(ui->tabplaylist);
+            QWidget *newTab = new QWidget(ui->tabplaylist);
 
 
-        if(NameGROUP.size() > 19)
-        {
-            ui->tabplaylist->addTab(newTab, NameGROUP.mid(0,13)+"...");
-        }
-        else
-            ui->tabplaylist->addTab(newTab, NameGROUP);
+            if(NameGROUP.size() > 19)
+            {
+                ui->tabplaylist->addTab(newTab, NameGROUP.mid(0,13)+"...");
+            }
+            else
+                ui->tabplaylist->addTab(newTab, NameGROUP);
 
-        ui->tabplaylist->setCurrentIndex(3);
+            ui->tabplaylist->setCurrentIndex(3);
 
 
-        disconnect(ui->GroupList, SIGNAL(currentTextChanged(QString)),       //Сигнал выбранной группы
-                this, SLOT(Groups_music(QString)));
-        ui->GroupList->setCurrentIndex(0);
-        connect(ui->GroupList, SIGNAL(currentTextChanged(QString)),       //Сигнал выбранной группы
-                this, SLOT(Groups_music(QString)));
+            disconnect(ui->GroupList, SIGNAL(currentTextChanged(QString)),       //Сигнал выбранной группы
+                    this, SLOT(Groups_music(QString)));
+            ui->GroupList->setCurrentIndex(0);
+            connect(ui->GroupList, SIGNAL(currentTextChanged(QString)),       //Сигнал выбранной группы
+                    this, SLOT(Groups_music(QString)));
         }
     }
     catch(QException)
@@ -1394,31 +1409,43 @@ void Widget::print_MyPhoto(QString photo)
 {
     try
     {
-        VkGet *get = new VkGet;
-        QByteArray temp = get->GET(photo);
-        get->deleteLater();
-        QImage px;
-        px.loadFromData(temp);
-        temp.clear();
+        if(!photo.isNull())
+        {
+            VkGet *get = new VkGet;
+            QByteArray temp = get->GET(photo);
+            if(!temp.isNull())
+            {
+                QImage px;
+                px.loadFromData(temp);
+                temp.clear();
 
-        QFile *file = new QFile("myavatar.jpg");
+                QFile *file = new QFile("myavatar.jpg");
 
-                if(file->open(QFile::ReadWrite))
-                {
-                    px.save(file,"jpg");
-                    file->close();
-                }
+                        if(file->open(QFile::ReadWrite))
+                        {
+                            px.save(file,"jpg");
+                            file->close();
+                        }
 
-            ui->Photo->setStyleSheet(
-                "QPushButton  {"
-                "border-image: url(myavatar.jpg);"
-                "border-radius: 8px;"
-                "}"
-                "QPushButton:pressed  {"
-                    "background-color: rgb(36, 116, 160);"
-                "}"
-                );
-            ui->Photo->show();
+                    ui->Photo->setStyleSheet(
+                        "QPushButton  {"
+                        "border-image: url(myavatar.jpg);"
+                        "border-radius: 8px;"
+                        "}"
+                        "QPushButton:pressed  {"
+                            "background-color: rgb(36, 116, 160);"
+                        "}"
+                        );
+                    ui->Photo->show();
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Error get photo");
+            msgBox.setWindowTitle("Ошибка");
+            msgBox.exec();
+        }
     }
     catch(QException)
     {
@@ -1428,9 +1455,7 @@ void Widget::print_MyPhoto(QString photo)
         msgBox.exec();
     }
 
-        this->complete_Download_My_Photo();
-
-        this->get_User_Friend();
+    this->get_User_Friend();
 }
 
 //Контекстное меню Плэйлиста
@@ -1698,6 +1723,7 @@ void Widget::selected_album(QString album)
 
     temp_albumId = albums_ids.value(album);
 
+    flag_if_MyPlaylist_isPlaying = true;
     int flag = 3;
     QUrl current("https://api.vk.com/method/audio.get");
     this->changedPlaylist(current, flag, 0, " ");
@@ -2177,7 +2203,7 @@ void Widget::CreateUpdater()
 void Widget::initialization_Tray()
 {
     trIcon = new QSystemTrayIcon();                     //инициализируем иконку
-
+    trIcon->setToolTip("VKPlayer");
     QMenu *trayMenu=new QMenu("VKPlayer");
     trayMenu->setStyleSheet(
                 "QMenu {"
@@ -2224,7 +2250,7 @@ void Widget::initialization_Tray()
 }
 
 //Получение токена и айди от окна авторизации
-void Widget::getTokenAndUsID(QString token, QString Id)
+void Widget::getTokenAndUsID(QString token, QString Id, QString photo)
 {
     Token = token;
     UsId = Id;
@@ -2235,11 +2261,11 @@ void Widget::getTokenAndUsID(QString token, QString Id)
     ui->Genre_Button->setEnabled(false);
 
 
-    this->get_User_Avatar(); //Получить аватарку пользователя
+    this->print_MyPhoto(photo); //Получить аватарку пользователя
     this->start_group_VK(); //Вступление в группу.
     this->post_User_trackVisitor(); // Добавить данные о посещаемости пользователя
 
-    ConnectToServer * SendUsId = new ConnectToServer();  //Отпрвка id пользователя на сервер разработчика
+    ConnectToServer * SendUsId = new ConnectToServer(this);  //Отпрвка id пользователя на сервер разработчика
     connect(this, SIGNAL(click_download_music()), SendUsId, SLOT(send_Download_music()));
    /* QThread * thread = new QThread;
     SendUsId->moveToThread(thread);
@@ -3095,8 +3121,8 @@ void Widget::on_Open_Albums_clicked()
     int Y = rect.y();
     QPropertyAnimation *animation = new QPropertyAnimation(ui->Open_Albums, "geometry");
     animation->setDuration(100);
-     animation->setStartValue(QRect(X+13, Y+13, 1, 1));
-     animation->setEndValue(QRect(X, Y, 26, 26));
+     animation->setStartValue(QRect(X+10, Y+10, 1, 1));
+     animation->setEndValue(QRect(X, Y, 20, 20));
      animation->start();
      ui->List_Albums->showPopup();
 }

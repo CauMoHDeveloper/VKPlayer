@@ -14,7 +14,7 @@ public slots:
     void readToken();
     void check_auth(QString UserId, QString token);
     void parsing_ckeck_auth(QByteArray answer);
-    void get_My_photo(QString MyId);
+    QString get_My_photo(QString MyId);
 
 signals:
     void auth_success(QString UserId,QString token);

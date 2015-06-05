@@ -118,7 +118,9 @@ void VkAudiopop::audiopop_parsing(QByteArray answer)      //Парсинг сп�
     {
         QVariantList List = parse(answer).toMap().value("response").toList();
 
-        for(int i = 0; i < List.size(); i++)
+        if(!List.isEmpty())
+        {
+            for(int i = 0; i < List.size(); i++)
             {
                 QVariantMap current = List[i].toMap();
 
@@ -198,6 +200,33 @@ void VkAudiopop::audiopop_parsing(QByteArray answer)      //Парсинг сп�
                 }
 
             }
+        }
+        else
+        {
+            qDebug()<<"Access to users audio is denied";
+            if(flag == 1)
+            {
+                emit send_photo(photo_user);
+                photo_user.first.clear();
+                photo_user.second.clear();
+                flag = 0;
+            }
+            if(Fr_Gr == 2){
+                emit send_group_id(group_id);
+                group_id.clear();
+                flag = 0;
+                Fr_Gr = 0;
+            }
+            emit audio_table(Artist_Title, Id_Url, Duration_Genre, OwnerId_lyricsId);
+
+            QMessageBox msgBox;
+            msgBox.setText("Error Load playlist");
+            msgBox.setWindowTitle("Ошибка");
+            msgBox.exec();
+
+
+            return;
+        }
 
         if(flag == 1)
         {
@@ -234,7 +263,4 @@ void VkAudiopop::audiopop_parsing(QByteArray answer)      //Парсинг сп�
         msgBox.setWindowTitle("Ошибка");
         msgBox.exec();
     }
-
-
-
 }

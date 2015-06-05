@@ -50,20 +50,27 @@ void vk_albums::parsing(QByteArray answer)                                      
     try
     {
         QVariantList List = parse(answer).toMap().value("response").toList();
-
-        for(int i=0; i < List.size(); i++)
+        if(!List.isEmpty())
         {
-            QVariantMap current = List[i].toMap();
-            title =   " " + current.value("title").toString();
-            QPair<QString, QString> pair_albums;
-            pair_albums.first = title;
-            pair_albums.second = current.value("album_id").toString();
-            if(!pair_albums.second.isEmpty())
-                albums.push_back(pair_albums);
+            for(int i=0; i < List.size(); i++)
+            {
+                QVariantMap current = List[i].toMap();
+                title =   " " + current.value("title").toString();
+                QPair<QString, QString> pair_albums;
+                pair_albums.first = title;
+                pair_albums.second = current.value("album_id").toString();
+                if(!pair_albums.second.isEmpty())
+                    albums.push_back(pair_albums);
+            }
         }
-
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Error load albums list");
+            msgBox.setWindowTitle("Ошибка");
+            msgBox.exec();
+        }
         emit albums_parse(albums);
-        emit albums_loaded(true);
     }
     catch(QException)
     {

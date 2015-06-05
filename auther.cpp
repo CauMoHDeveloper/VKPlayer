@@ -91,6 +91,9 @@ void auther::run_player(QString token, QString Id)                              
 {
     disconnect(ui->web_auth, SIGNAL(urlChanged(QUrl)),auth,SLOT(check_url(QUrl)));
 
+    QString photo = " ";
+    photo = auth->get_My_photo(Id);
+
         Widget * w = new Widget();
 
         this->hide();
@@ -102,7 +105,7 @@ void auther::run_player(QString token, QString Id)                              
         //Добавить кнопку в превью окна в панели задач
         w->Create_Thumb_Button();
         Hell->close();
-        w->getTokenAndUsID(token, Id);
+        w->getTokenAndUsID(token, Id, photo);
 
         this->saveGeom("Auther");
         this->close();

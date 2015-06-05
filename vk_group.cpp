@@ -53,20 +53,28 @@ void vk_group::parsing(QByteArray answer)                                       
     try
     {
         QVariantList List = parse(answer).toMap().value("response").toList();
-
-        for(int i=0; i < List.size(); i++)
+        if(!List.isEmpty())
         {
-            QVariantMap current = List[i].toMap();
-            tmpFULL =   " " + current.value("name").toString();
+            for(int i=0; i < List.size(); i++)
+            {
+                QVariantMap current = List[i].toMap();
+                tmpFULL =   " " + current.value("name").toString();
 
-            QPair<QString, QString> pair_groups;
-            pair_groups.first = tmpFULL;
-            pair_groups.second = current.value("gid").toString();
-            if(!pair_groups.second.isEmpty())
-                groups.push_back(pair_groups);
+                QPair<QString, QString> pair_groups;
+                pair_groups.first = tmpFULL;
+                pair_groups.second = current.value("gid").toString();
+                if(!pair_groups.second.isEmpty())
+                    groups.push_back(pair_groups);
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Error load groups list");
+            msgBox.setWindowTitle("Ошибка");
+            msgBox.exec();
         }
         emit groups_parse(groups);
-        emit groups_loaded(true);
     }
     catch(QException)
     {

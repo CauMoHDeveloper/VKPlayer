@@ -52,21 +52,22 @@ void VkFriend::parsing(QByteArray answer)                                       
     try
     {
         QVariantList List = parse(answer).toMap().value("response").toList();
-
-        for(int i=0; i < List.size(); i++)
+        if(!List.isEmpty())
         {
-            QVariantMap current = List[i].toMap();
-            tmpFULL =   " " + current.value("first_name").toString() +
-                        " " + current.value("last_name").toString();
+            for(int i=0; i < List.size(); i++)
+            {
+                QVariantMap current = List[i].toMap();
+                tmpFULL =   " " + current.value("first_name").toString() +
+                            " " + current.value("last_name").toString();
 
-            QPair<QString, QString> pair_users;
-            pair_users.first = tmpFULL;
-            pair_users.second = current.value("uid").toString();
-            if(!pair_users.first.isEmpty())
-                users.push_back(pair_users);
+                QPair<QString, QString> pair_users;
+                pair_users.first = tmpFULL;
+                pair_users.second = current.value("uid").toString();
+                if(!pair_users.first.isEmpty())
+                    users.push_back(pair_users);
+            }
         }
         emit friends_parse(users);
-        emit friends_loaded(true);
     }
     catch(QException)
     {

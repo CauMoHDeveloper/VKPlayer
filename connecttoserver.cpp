@@ -24,7 +24,7 @@ ConnectToServer::ConnectToServer(QObject *parent) :
     QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
 
     UserId = settings->value("TokenAndId/Id").toString();
-qDebug("fsd");
+
     ptimer->start(900000);
 }
 
@@ -45,7 +45,7 @@ void ConnectToServer::slotConnected()
     //QString version = settings->value("About/Version").toString();
 
      qDebug()<<"Connection...";
-     m_pTcpSocket->write(UserId.toUtf8() + "  v."+/*version.toUtf8()*/"3.0 beta 1"+" WIN");
+     m_pTcpSocket->write(UserId.toUtf8() + "  v."+/*version.toUtf8()*/"3.0 beta 2"+" WIN");
      qDebug()<<"Send UserId";
 }
 

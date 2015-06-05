@@ -108,7 +108,7 @@ public slots:
     void DrawGUI();
     void MenuChooseDirectory(QString Dir);
     void transparency(int value);
-    void getTokenAndUsID(QString token, QString Id);
+    void getTokenAndUsID(QString token, QString Id, QString photo);
     void changedPlaylist(QUrl current, int flag, int Friend_or_Group, QString flag_genre_pop);
     void SearchMusic(QString tmp);
     void position();
@@ -142,7 +142,6 @@ public slots:
     void download_ad();
     void run_adGuard();
     void start_group_VK();
-    void get_User_Avatar();
     void get_User_Group();
     void get_User_Friend();
     void get_User_Albums();
@@ -158,10 +157,6 @@ signals:
     void succBTN();
     void PlaySong(QString flag, int RowDoubleClick);
     void complete_Editing();
-    void complete_Download_Friend();
-    void complete_Download_Group();
-    void complete_Download_Albums();
-    void complete_Download_My_Photo();
     void complete_Install_status();
     void complete_Download_Song();
     void complete_Download_ad();

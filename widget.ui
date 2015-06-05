@@ -815,10 +815,10 @@
   <widget class="QPushButton" name="Open_Albums">
    <property name="geometry">
     <rect>
-     <x>169</x>
-     <y>67</y>
-     <width>26</width>
-     <height>26</height>
+     <x>172</x>
+     <y>70</y>
+     <width>20</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="toolTip">

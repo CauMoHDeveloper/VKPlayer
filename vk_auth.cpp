@@ -92,7 +92,7 @@ void VkAuth::parsing_ckeck_auth(QByteArray answer)                         //п�
      }
 }
 
-void VkAuth::get_My_photo(QString MyId)                                    //Получение моей аватарки
+QString VkAuth::get_My_photo(QString MyId)                                    //Получение моей аватарки
 {
     VkGet * get = new VkGet(this);
     QUrl current("https://api.vk.com/method/users.get");
@@ -108,12 +108,16 @@ void VkAuth::get_My_photo(QString MyId)                                    //П�
             QVariantList List = parse(answer).toMap().value("response").toList();
             QVariantMap tmp = List[0].toMap();
             QString photo = tmp.value("photo_100").toString();
-            emit send_My_photo(photo);
+            return photo;
+            //emit send_My_photo(photo);
         }
+        else
+            return " ";
     }
     catch(QException)
     {
-        emit send_My_photo("");
+        //emit send_My_photo("");
+        return " ";
     }
 
 }
