@@ -30,9 +30,9 @@ auther::auther(WidgetParent *parent) :
    // this->setAttribute(Qt::WA_DeleteOnClose);
 
     auth = new VkAuth();
-    QThread *thread = new QThread(this);
+    /*QThread *thread = new QThread(this);
     auth->moveToThread(thread);
-    thread->start();
+    thread->start();*/
     Hell->show();
 
     connect(auth, SIGNAL(auth_error(bool)),this,SLOT(print_auth_erroR(bool)));

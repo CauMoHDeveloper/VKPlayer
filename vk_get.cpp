@@ -27,7 +27,9 @@ QByteArray VkGet::GET(QUrl r)   //Сетевое взаимодействие с
         connect(manager, SIGNAL(finished(QNetworkReply*)), manager, SLOT(deleteLater()));
         wait.exec();
 
-        QByteArray answer = reply->readAll();
+        QByteArray answer = " ";
+        if(!reply->error())
+            answer = reply->readAll();
         reply->deleteLater();
 
         emit data_get(answer);

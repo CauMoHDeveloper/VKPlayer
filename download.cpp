@@ -53,13 +53,12 @@ void Download::replyFinished (QNetworkReply *reply)               //Запись
 {
     if(reply->error())
     {
-
         qDebug() << reply->errorString();
+        emit complete();
+        return;
     }
     else
     {
-
-
         qDebug() << reply->header(QNetworkRequest::ContentTypeHeader).toString();
         qDebug() << reply->header(QNetworkRequest::LastModifiedHeader).toDateTime().toString();;
         qDebug() << reply->header(QNetworkRequest::ContentLengthHeader).toULongLong();

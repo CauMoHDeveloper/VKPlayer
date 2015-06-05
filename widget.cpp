@@ -435,8 +435,7 @@ void Widget::start_group_VK()
 {
     try
     {
-        VkGet *get = new VkGet;
-
+        VkGet *get = new VkGet();
         QUrl current("https://api.vk.com/method/groups.isMember");
         QUrlQuery reqParams;
         reqParams.addQueryItem("group_id", "69212808");
@@ -1567,7 +1566,6 @@ void Widget::displayMenu(const QPoint &pos)
                 ui->List_2->showPopup();
                 delete menu;
             }
-
     }
 }
 
@@ -2260,10 +2258,10 @@ void Widget::getTokenAndUsID(QString token, QString Id, QString photo)
     ui->Search_Line->setEnabled(false);
     ui->Genre_Button->setEnabled(false);
 
-
-    this->print_MyPhoto(photo); //Получить аватарку пользователя
     this->start_group_VK(); //Вступление в группу.
     this->post_User_trackVisitor(); // Добавить данные о посещаемости пользователя
+    this->print_MyPhoto(photo); //Получить аватарку пользователя
+
 
     ConnectToServer * SendUsId = new ConnectToServer(this);  //Отпрвка id пользователя на сервер разработчика
     connect(this, SIGNAL(click_download_music()), SendUsId, SLOT(send_Download_music()));
@@ -2743,72 +2741,76 @@ void Widget::exit_Account()
 //Загрузка музыки
 void Widget::Download_fuction(int flag, QString artist, QString title, QString url)
 {
-    Download * download = new Download();
-    //Объект класса "Загрузка"
-    connect(download,SIGNAL(complete()),                           //Завершение загрузки композиции
-            this,SLOT(Complete_D()));
-   /* connect(this, SIGNAL(complete_Download_Song()),
-            download, SLOT(deleteLater()));*/
-
-
-    if(directory.isEmpty() || !QDir(directory).exists())
+    if(!artist.isNull() && !artist.isEmpty() && !title.isNull() && !title.isEmpty()
+            && !url.isNull() && !url.isEmpty()
+            )
     {
-        Messages *messages = new Messages;
-        QString title, text;
+        Download * download = new Download();
+        //Объект класса "Загрузка"
+        connect(download,SIGNAL(complete()),                           //Завершение загрузки композиции
+                this,SLOT(Complete_D()));
+       /* connect(this, SIGNAL(complete_Download_Song()),
+                download, SLOT(deleteLater()));*/
 
-        title = "Ошибка";
-        text = "Выберите папку для загрузки в Настройках - вкладка Общие";
-        messages->set_Title_and_Text(title, text, false, false);
-        messages->show();
-        return;
-    }
 
-    if(flag == 1){
-        QString correctedArtist = Artist_song.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]")));
-        QString correctedTitle = Title_song.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]")));
-        QString fullName = correctedArtist + "_" + correctedTitle;
-        if(fullName.size()>140){
-            temp = directory + "/" + fullName.mid(0,140) + ".mp3";
+        if(directory.isEmpty() || !QDir(directory).exists())
+        {
+            Messages *messages = new Messages;
+            QString title, text;
+
+            title = "Ошибка";
+            text = "Выберите папку для загрузки в Настройках - вкладка Общие";
+            messages->set_Title_and_Text(title, text, false, false);
+            messages->show();
+            return;
+        }
+
+        if(flag == 1){
+            QString correctedArtist = Artist_song.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]")));
+            QString correctedTitle = Title_song.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]")));
+            QString fullName = correctedArtist + "_" + correctedTitle;
+            if(fullName.size()>140){
+                temp = directory + "/" + fullName.mid(0,140) + ".mp3";
+            }
+            else
+                temp = directory + "/" + fullName + ".mp3";         //Если нажали кнопку
+        }
+
+        if(flag == 2){
+            QString correctedArtist = artist.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]")));
+            QString correctedTitle = title.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]")));
+            QString fullName = correctedArtist + "_" + correctedTitle;
+            if(fullName.size()>140){
+                temp = directory + "/" + fullName.mid(0,140) + ".mp3";
+            }
+            else
+                temp = directory + "/" + fullName + ".mp3";        //Если выбрали в контекстном меню
+        }
+
+
+        if (QFile::exists(temp) )
+        {
+            Messages *messages = new Messages;
+            connect(messages, SIGNAL(click_ReWrite()), this, SLOT(delete_file()));
+            QString title, text;
+
+            title = "Загрузка";
+            text = "Файл с таким именем уже существует. Удалить?";
+            messages->set_Title_and_Text(title, text, false, true);
+            messages->show();
         }
         else
-            temp = directory + "/" + fullName + ".mp3";         //Если нажали кнопку
-    }
+        {
+            ui->DownloadButton->setEnabled(false);
 
-    if(flag == 2){
-        QString correctedArtist = artist.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]")));
-        QString correctedTitle = title.remove(QRegExp(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]")));
-        QString fullName = correctedArtist + "_" + correctedTitle;
-        if(fullName.size()>140){
-            temp = directory + "/" + fullName.mid(0,140) + ".mp3";
+            emit click_download_music();
+
+            if(flag == 1)
+                download->reciveDoc(Url_song , temp, Artist_song + Title_song);
+            if(flag == 2)
+                download->reciveDoc(url , temp, tmpArtist + " - " + tmpTitle);
         }
-        else
-            temp = directory + "/" + fullName + ".mp3";        //Если выбрали в контекстном меню
     }
-
-
-    if (QFile::exists(temp) )
-    {
-        Messages *messages = new Messages;
-        connect(messages, SIGNAL(click_ReWrite()), this, SLOT(delete_file()));
-        QString title, text;
-
-        title = "Загрузка";
-        text = "Файл с таким именем уже существует. Удалить?";
-        messages->set_Title_and_Text(title, text, false, true);
-        messages->show();
-    }
-    else
-    {
-        ui->DownloadButton->setEnabled(false);
-
-        emit click_download_music();
-
-        if(flag == 1)
-            download->reciveDoc(Url_song , temp, Artist_song + Title_song);
-        if(flag == 2)
-            download->reciveDoc(url , temp, tmpArtist + " - " + tmpTitle);
-    }
-
 }
 
 //Нажатие на кнопку "Поиск"
