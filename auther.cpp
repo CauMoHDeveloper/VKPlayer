@@ -12,17 +12,18 @@
 //Если авторизация уже проводилась ранее. Данный класс отправляет классу vk_auth запрос на проверку правильности токена
 //И если токен правильный запускает сам плеер, при этом сам класс не показывает свою форму.
 
+//Текущая версия
+
+int auther::version = 300;
+
 auther::auther(WidgetParent *parent) :
     WidgetParent(parent),
     ui(new Ui::auther)
 {
-
     ui->setupUi(this);   
-
 
     //SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
     //SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
-
 
     Hell = new helloy;
     //this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint |  Qt::X11BypassWindowManagerHint | Qt::FramelessWindowHint  );//Флаги окна виндоус
@@ -135,8 +136,9 @@ void auther::DownloadSettings()                                        //Зар�
 
             if(settings->value("About/Name").isNull())
                 settings->setValue("About/Name", "VKPlayer");
-            if(settings->value("About/Version").isNull())
-                settings->setValue("About/Version", "221");
+
+            settings->setValue("About/Version", version);
+
             if(settings->value("Color/B").isNull())
                 settings->setValue("Color/B", "49");
             if(settings->value("Color/G").isNull())
@@ -151,6 +153,8 @@ void auther::DownloadSettings()                                        //Зар�
 
             if(settings->value("Update/Val").isNull())
                 settings->setValue("Update/Val", "0");
+            if(settings->value("Update/CheckUpdate").isNull())
+                 settings->setValue("Update/CheckUpdate", true);
 
             if(settings->value("Volume/val").isNull())
                 settings->setValue("Volume/val", "84");

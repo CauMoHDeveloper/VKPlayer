@@ -128,10 +128,10 @@ void UpdateVersion::replyFinished (QNetworkReply *reply)             //Запи�
                      file.flush();
                      file.close();
 
-                     QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
+                    /* QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
 
                      settings->setValue("About/Version", version);
-                     settings->sync();
+                     settings->sync();*/
 
                      emit Restarting();
                  }

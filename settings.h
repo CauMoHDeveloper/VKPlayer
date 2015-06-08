@@ -47,6 +47,7 @@ public slots:
     void selectedItem(QTableWidgetItem*);
     void apply_new_HotKey(QString, QString, int, int, int);
     void Save_Search_options();
+    void Save_startingCheckUpdate();
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event);

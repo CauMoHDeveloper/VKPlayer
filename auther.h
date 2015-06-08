@@ -6,10 +6,10 @@
 #include "widgetparent.h"
 
 
+
 namespace Ui {
 class auther;
 }
-
 class auther : public WidgetParent
 {
     Q_OBJECT
@@ -35,6 +35,7 @@ private:
     class VkAuth *auth;
     int R, G, B;
     float TR;
+    static int version;
 };
 
 #endif // AUTHER_H

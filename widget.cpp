@@ -7,7 +7,7 @@
 #include "messages.h"
 #include <QFont>
 #include <QRgb>
-//                                                     VKPLAYER 3.0 beta 1                              //
+//                                                     VKPLAYER 3.0 beta 2                              //
 
 //    Разработчик :  НЕСТЕРОВ ВЯЧЕСЛАВ АНАТОЛЬЕВИЧ
 
@@ -122,6 +122,9 @@
 //-Добавлены списки альбомов пользователя
 //-Добавлены горячие клавиши для управления громкостью
 //-bugfix
+//-bugfix update module
+//-Добавлены доп. опции по поиску музыки
+//-Добавлена возможность отключения првоерки на обновление
 
 using namespace QtJson;
 
@@ -185,20 +188,29 @@ Widget::Widget(WidgetParent *parent) :
 
     }
 
-    //Объект класса обновление программы
-    try{
-    UpdateVersion * Update = new UpdateVersion(this);
-    connect(Update, SIGNAL(NewVersionFound(bool)),
-            this, SLOT(printNewVersion(bool)));
-
-    connect(Update, SIGNAL(ErrorSignal(bool)),
-            this, SLOT(printNewVersion(bool)));
-    //Запуск проверки на наличие обновлений
-    Update->StartCheck();
-    }
-    catch(QException)
+    bool CheckUpdate = true;
+    QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
+    if(!settings->value("Update/CheckUpdate").isNull())
     {
+        CheckUpdate = settings->value("Update/CheckUpdate").toBool();
+    }
+    if(CheckUpdate)
+    {
+        //Объект класса обновление программы
+        try{
+        UpdateVersion * Update = new UpdateVersion(this);
+        connect(Update, SIGNAL(NewVersionFound(bool)),
+                this, SLOT(printNewVersion(bool)));
 
+        connect(Update, SIGNAL(ErrorSignal(bool)),
+                this, SLOT(printNewVersion(bool)));
+        //Запуск проверки на наличие обновлений
+        Update->StartCheck();
+        }
+        catch(QException)
+        {
+
+        }
     }
 
      //Установить шаг прокрутки плэйлиста

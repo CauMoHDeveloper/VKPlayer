@@ -47,6 +47,7 @@ Settings::Settings(WidgetParent *parent) :
     connect(ui->Search_lyrics_only, SIGNAL(toggled(bool)), this, SLOT(Save_Search_options()));
     connect(ui->Search_performer_only, SIGNAL(toggled(bool)), this, SLOT(Save_Search_options()));
     connect(ui->Search_user_only, SIGNAL(toggled(bool)), this, SLOT(Save_Search_options()));
+    connect(ui->CheckUpdate_box, SIGNAL(toggled(bool)), this, SLOT(Save_startingCheckUpdate()));
     connect(ui->tableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), //Выбор сочетания клавиш
             this, SLOT(selectedItem(QTableWidgetItem*)));
     connect(ui->aboutQt, SIGNAL(clicked()), QApplication::instance(), SLOT(aboutQt()));
@@ -143,6 +144,7 @@ void Settings::DrawGUI()                                              //Рисо
     ui->label_9->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
     ui->label_10->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
     ui->label_11->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
+    ui->label_12->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
 
     stylesheet_path = "://CSS/Button.txt";
     ui->Download_Dir_BTN->setStyleSheet(this->Read_Stylesheet(stylesheet_path));
@@ -390,8 +392,9 @@ void Settings::DownloadSettings()                                     //Загр
     ui->Search_performer_only->setChecked(settings->value("Search_performer_only/val").toBool());
     ui->Search_user_only->setChecked(settings->value("Search_user_only/val").toBool());
     ui->checkBox_Hide_Tray->setChecked(settings->value("Hide_To_Tray/val").toBool());
+    ui->CheckUpdate_box->setChecked(settings->value("Update/CheckUpdate").toBool());
 
-     if(valupdate == 1)
+     if(valupdate == 1 && ui->CheckUpdate_box->isChecked())
      {
         ui->printActualVersion->clear();
         ui->printActualVersion->setText("Доступна новая версия!");
@@ -469,6 +472,13 @@ void Settings::Save_Search_options()
     settings->setValue("Search_lyrics_only/val", ui->Search_lyrics_only->isChecked());
     settings->setValue("Search_performer_only/val", ui->Search_performer_only->isChecked());
     settings->setValue("Search_user_only/val", ui->Search_user_only->isChecked());
+    settings->sync();
+}
+
+void Settings::Save_startingCheckUpdate()
+{
+    QSettings * settings = new QSettings("settings.conf",QSettings::IniFormat);
+    settings->setValue("Update/CheckUpdate", ui->CheckUpdate_box->isChecked());
     settings->sync();
 }
 
