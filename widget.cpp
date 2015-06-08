@@ -7,7 +7,7 @@
 #include "messages.h"
 #include <QFont>
 #include <QRgb>
-//                                                     VKPLAYER 3.0 beta 2                              //
+//                                                     VKPLAYER 3.0 beta 2.1                             //
 
 //    Разработчик :  НЕСТЕРОВ ВЯЧЕСЛАВ АНАТОЛЬЕВИЧ
 
@@ -124,7 +124,7 @@
 //-bugfix
 //-bugfix update module
 //-Добавлены доп. опции по поиску музыки
-//-Добавлена возможность отключения првоерки на обновление
+//-Добавлена возможность отключения проверки на обновление
 
 using namespace QtJson;
 
@@ -978,7 +978,7 @@ void Widget::print_audioTable(QList< QPair<QString, QString> > Artist_Title, QLi
 
         ui->tableWidget->removeCellWidget(ui->tableWidget->rowCount()-1,1);
         ui->tableWidget->removeCellWidget(0,1);
-        ui->tableWidget->clear();                                       //Очистка виджета-плэйлиста
+        ui->tableWidget->clearContents();                                       //Очистка виджета-плэйлиста
 
         int rowC = 0;
         int flag_found_song = 0;
@@ -2429,7 +2429,7 @@ void Widget::changedPlaylist(QUrl current, int flag, int Friend_or_Group, QStrin
         ui->Search_Line->setEnabled(false);
         ui->Genre_Button->setEnabled(false);
 
-            ui->tableWidget->clear();
+            ui->tableWidget->clearContents();
 
 
         if(flag == 0)
@@ -2512,7 +2512,7 @@ void Widget::SearchMusic(QString tmp)
     ui->tabplaylist->setEnabled(false);
     QUrl current("https://api.vk.com/method/audio.search");
 
-        ui->tableWidget->clear();
+        ui->tableWidget->clearContents();
 
 
     int MyFlag = 0;        //флаг чтобы объект vk_audiopop знал мои это аудиозаписи или нет
@@ -3105,7 +3105,7 @@ void Widget::click_next_300()
     ui->Genre_Button->setEnabled(false);
 
     create_tab = false;
-    ui->tableWidget->clear();
+    ui->tableWidget->clearContents();
     Loading.show();
 
     offset = offset + 150;
@@ -3121,7 +3121,7 @@ void Widget::click_previous_300()
     ui->Genre_Button->setEnabled(false);
 
     create_tab = false;
-    ui->tableWidget->clear();
+    ui->tableWidget->clearContents();
     Loading.show();
 
     offset = offset - 150;
